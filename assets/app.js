@@ -2028,7 +2028,7 @@ const evaluationItems = [
     menuTitle: "Diagnóstica",
     intro: "Questionário inicial para perceber conhecimentos prévios sobre bases de dados e SQL.",
     url: "avaliacao/avaliacao-diagnostica.html",
-    externalUrl: "",
+    externalUrl: "https://avaliacoes-formacao.netlify.app/ufcd-10788/00-diagnostico.html",
     children: [
       {
         id: "resultados-diagnostica",
@@ -4451,6 +4451,7 @@ function renderActivityPage() {
               height="900"
               style="border:0;"
               loading="lazy"
+              referrerpolicy="unsafe-url"
               title="${activity.title}">
             </iframe>
           </div>
