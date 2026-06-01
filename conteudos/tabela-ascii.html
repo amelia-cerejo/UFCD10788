@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UFCD 10788 | Tabela ASCII Bï¿½sica e Sistemas Numï¿½ricos</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <style>
+      :root {
+        --azul: #1E3A8A;
+        --azul-claro: #3B82F6;
+        --laranja: #F97316;
+        --verde: #16A34A;
+        --roxo: #7C3AED;
+        --texto: #243044;
+        --suave: #64748B;
+        --linha: #D8E3F5;
+        --fundo: #F5F8FC;
+        --cartao: #FFFFFF;
+        --sombra: 0 18px 40px rgba(30, 58, 138, 0.12);
+        --raio: 8px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--fundo);
+        color: var(--texto);
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(220px, 270px) minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 30;
+        width: var(--sidebar);
+        height: 100vh;
+        overflow-y: auto;
+        border-right: 1px solid var(--cor-linha);
+        padding: 20px 14px;
+        background: var(--cor-branco);
+      }
+
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 26px;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        border-radius: var(--raio);
+        background: var(--azul);
+        color: #FFFFFF;
+        font-weight: 900;
+      }
+
+      .brand strong {
+        display: block;
+        color: #58708A;
+        font-size: 0.8rem;
+        line-height: 1.35;
+      }
+
+      .nav {
+        display: grid;
+        gap: 4px;
+      }
+
+      .nav a,
+      .nav button {
+        border-radius: var(--raio);
+        padding: 10px 12px;
+        color: var(--texto);
+        border: 0;
+        background: transparent;
+        font: inherit;
+        text-align: left;
+        text-decoration: none;
+      }
+
+      .nav a:hover,
+      .nav a.active,
+      .nav button:hover {
+        background: #DBEAFE;
+        color: var(--azul);
+      }
+
+      .nav button {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .nav-group {
+        margin-top: 6px;
+        padding: 8px 12px 2px;
+        color: var(--azul);
+        font-size: 0.86rem;
+        font-weight: 900;
+      }
+
+      .nav-sub {
+        display: grid;
+        gap: 2px;
+        margin-left: 12px;
+        padding-left: 10px;
+        border-left: 2px solid var(--linha);
+      }
+
+      .nav-sub a,
+      .nav-sub span {
+        border-radius: var(--raio);
+        padding: 8px 10px;
+        font-size: 0.92rem;
+      }
+
+      .nav-sub span {
+        color: var(--suave);
+        opacity: 0.78;
+      }
+
+      .nav-sub small {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .main {
+        min-width: 0;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(48px, 8vw, 86px) clamp(22px, 6vw, 76px);
+        color: #FFFFFF;
+        background:
+          linear-gradient(135deg, rgba(30, 58, 138, 0.94), rgba(59, 130, 246, 0.86)),
+          radial-gradient(circle at 88% 18%, rgba(249, 115, 22, 0.55), transparent 28%),
+          #1E3A8A;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0;
+        height: 7px;
+        background: linear-gradient(90deg, var(--laranja), var(--azul-claro), var(--azul));
+      }
+
+      .hero-inner,
+      .section-inner {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--laranja);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hero .eyebrow {
+        color: #FED7AA;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        color: var(--azul);
+        line-height: 1.15;
+      }
+
+      .hero h1 {
+        max-width: 820px;
+        color: #FFFFFF;
+        font-size: clamp(2.2rem, 5vw, 4.5rem);
+      }
+
+      .hero p {
+        max-width: 760px;
+        margin: 18px 0 0;
+        color: rgba(255, 255, 255, 0.92);
+        font-size: clamp(1rem, 1.6vw, 1.2rem);
+      }
+
+      .hero-actions,
+      .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border: 0;
+        border-radius: var(--raio);
+        padding: 10px 14px;
+        background: var(--laranja);
+        color: #FFFFFF;
+        font: inherit;
+        font-weight: 900;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .button.secondary {
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.36);
+      }
+
+      .section {
+        padding: clamp(42px, 6vw, 72px) 0;
+      }
+
+      .section.alt {
+        background: #EAF2FF;
+      }
+
+      .section-heading {
+        max-width: 760px;
+        margin-bottom: 24px;
+      }
+
+      .section-heading h2 {
+        font-size: clamp(1.7rem, 3vw, 2.6rem);
+      }
+
+      .lead {
+        margin: 12px 0 0;
+        color: var(--suave);
+        font-size: 1.06rem;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card,
+      .tool,
+      .table-wrap {
+        border: 1px solid var(--linha);
+        border-radius: var(--raio);
+        background: var(--cartao);
+        box-shadow: var(--sombra);
+      }
+
+      .card {
+        padding: clamp(18px, 2.4vw, 24px);
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--azul);
+        font-size: 1.1rem;
+      }
+
+      .code-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 54px;
+        border-radius: 7px;
+        padding: 8px 10px;
+        color: #FFFFFF;
+        font-weight: 900;
+      }
+
+      .dec {
+        background: var(--azul-claro);
+      }
+
+      .bin {
+        background: var(--verde);
+      }
+
+      .oct {
+        background: var(--laranja);
+      }
+
+      .hex {
+        background: var(--roxo);
+      }
+
+      .mini-table,
+      .ascii-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .mini-table th,
+      .mini-table td,
+      .ascii-table th,
+      .ascii-table td {
+        border-bottom: 1px solid var(--linha);
+        padding: 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .mini-table th,
+      .ascii-table th {
+        color: var(--azul);
+        background: #F8FBFF;
+        font-size: 0.86rem;
+        text-transform: uppercase;
+      }
+
+      .mini-table tr:last-child td,
+      .ascii-table tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .table-wrap {
+        overflow: auto;
+      }
+
+      .example-card {
+        display: grid;
+        grid-template-columns: minmax(160px, 0.7fr) minmax(0, 1.3fr);
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .big-letter {
+        display: grid;
+        place-items: center;
+        min-height: 230px;
+        border-radius: var(--raio);
+        background: var(--azul);
+        color: #FFFFFF;
+        font-size: clamp(5rem, 12vw, 9rem);
+        font-weight: 900;
+      }
+
+      .value-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .value-box {
+        border: 1px solid var(--linha);
+        border-radius: var(--raio);
+        padding: 14px;
+        background: #FFFFFF;
+      }
+
+      .value-box span {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--suave);
+        font-size: 0.86rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .value-box strong {
+        color: var(--azul);
+        font-size: 1.5rem;
+      }
+
+      .steps {
+        display: grid;
+        gap: 12px;
+        counter-reset: passos;
+      }
+
+      .step {
+        position: relative;
+        border: 1px solid var(--linha);
+        border-radius: var(--raio);
+        padding: 16px 16px 16px 58px;
+        background: #FFFFFF;
+      }
+
+      .step::before {
+        counter-increment: passos;
+        content: counter(passos);
+        position: absolute;
+        left: 16px;
+        top: 16px;
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: var(--azul);
+        color: #FFFFFF;
+        font-weight: 900;
+      }
+
+      .tool {
+        padding: clamp(18px, 2.6vw, 28px);
+      }
+
+      .converter {
+        display: grid;
+        grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
+        gap: 18px;
+        align-items: start;
+      }
+
+      .converter label {
+        display: grid;
+        gap: 8px;
+        color: var(--azul);
+        font-weight: 900;
+      }
+
+      .converter input {
+        width: 100%;
+        border: 1px solid var(--linha);
+        border-radius: var(--raio);
+        padding: 13px 14px;
+        color: var(--texto);
+        background: #FFFFFF;
+        font: inherit;
+      }
+
+      .result-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .result {
+        min-height: 92px;
+        border: 1px solid var(--linha);
+        border-radius: var(--raio);
+        padding: 12px;
+        background: #F8FBFF;
+      }
+
+      .result span {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--suave);
+        font-size: 0.76rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .result strong {
+        color: var(--azul);
+        overflow-wrap: anywhere;
+        font-size: 1.18rem;
+      }
+
+      .exercise-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .exercise-list li {
+        border-left: 5px solid var(--laranja);
+        border-radius: var(--raio);
+        padding: 14px 16px;
+        background: #FFFFFF;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .summary-grid .card {
+        box-shadow: none;
+      }
+
+      .char-cell {
+        color: var(--azul);
+        font-weight: 900;
+      }
+
+      .note {
+        margin-top: 14px;
+        border-left: 5px solid var(--azul-claro);
+        border-radius: var(--raio);
+        padding: 14px 16px;
+        background: #FFFFFF;
+        color: var(--suave);
+      }
+
+      @media (max-width: 980px) {
+        .layout {
+          display: block;
+        }
+
+        .sidebar {
+          position: static;
+          height: auto;
+        }
+
+        .nav {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .card-grid,
+        .summary-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .example-card,
+        .converter {
+          grid-template-columns: 1fr;
+        }
+
+        .result-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .nav,
+        .card-grid,
+        .summary-grid,
+        .exercise-list,
+        .value-grid,
+        .result-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 42px;
+        }
+
+        .ascii-table th,
+        .ascii-table td {
+          padding: 10px 8px;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body data-depth="sub">
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <aside class="sidebar" aria-label="Menu principal">
+      <a class="brand" href="../index.html#inicio"><span class="brand-mark">10788</span><span><strong>Fundamentos da linguagem SQL</strong></span></a>
+      <nav class="side-nav">
+        <a href="../index.html#inicio">Início</a>
+        <a href="../index.html#objetivos">Objetivos</a>
+        <a href="../index.html#metodologia">Metodologia</a>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-conteudos">
+          Conteúdos
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu" id="submenu-conteudos">
+          <a href="../conteudos/introducao-bases-dados.html">Introdução a bases de dados</a>
+          <a href="../conteudos/ambientes-bases-dados.html">Ambientes de bases de dados</a>
+          <a href="../conteudos/terminologia-relacional.html">Terminologia de bases de dados relacionais</a>
+          <a href="../conteudos/planeamento-desenho.html">Planeamento e desenho de bases de dados</a>
+          <a href="../conteudos/introducao-sql.html">Introdução ao SQL</a>
+          <a href="../conteudos/criacao-bases-dados.html">Criação de bases de dados</a>
+          <a href="../conteudos/tabelas-integridade.html">Tabelas e integridade de dados</a>
+          <a href="../conteudos/fundamentos-transact-sql.html">Fundamentos de Transact-SQL</a>
+          <a href="../conteudos/filtragem-ordenacao.html">Filtragem e ordenação de dados</a>
+        </div>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-atividades">
+          Atividades
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu activity-submenu" id="submenu-atividades">
+          <a href="../atividades/controlo-teams.html">Partilha de ecrã</a>
+          <a href="../atividades/brainstorming.html">Brainstorming</a>
+          <a href="../atividades/tarefas-individuais.html">Tarefas individuais</a>
+          <div class="submenu-children">
+            <a href="../atividades/acompanhamento-ti.html">Acompanhamento TI</a>
+          </div>
+          <a href="../atividades/tarefas-grupo.html">Tarefas de grupo</a>
+          <div class="submenu-children">
+            <a href="../atividades/acompanhamento-tg.html">Acompanhamento TG</a>
+          </div>
+          <a href="../atividades/laboratorio-sql.html">Laboratório SQL</a>
+          <div class="submenu-children">
+            <a href="../atividades/programa-final.html">Projeto final</a>
+            <a href="../atividades/galeria-projetos.html">Galeria</a>
+          </div>
+        </div>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-avaliacao">
+          Avaliação
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu evaluation-submenu" id="submenu-avaliacao">
+          <a href="../avaliacao/avaliacao-diagnostica.html">Diagnóstica</a>
+          <div class="submenu-children">
+            <a href="../avaliacao/resultados-diagnostica.html">Resultados</a>
+          </div>
+          <a href="../avaliacao/avaliacao-sumativa.html">Sumativa</a>
+          <a href="../avaliacao/autoavaliacao-final.html">Autoavaliação</a>
+          <a href="../avaliacao/avaliacao-entre-pares.html">Entre pares</a>
+          <a href="../avaliacao/avaliacao-formacao.html">Formação</a>
+        </div>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-recursos">
+          Recursos
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu resource-submenu" id="submenu-recursos">
+          <a href="../recursos/manual.html">Manual para download</a>
+          <a href="../recursos/assistente-gpt.html">Assistente UFCD 10788</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="page-shell custom-content-page" id="topo">
+        <header class="hero">
+          <div class="hero-inner">
+            <h1>Tabela ASCII Bï¿½sica e Sistemas Numï¿½ricos</h1>
+            <p>Os computadores não guardam letras como nï¿½s as vemos. Guardam cï¿½digos numï¿½ricos. Nesta página vais ver como um carï¿½cter pode ser representado em decimal, binï¿½rio, octal e hexadecimal.</p>
+            <div class="hero-actions">
+              <a class="button" href="#ferramenta">Experimentar ferramenta</a>
+              <a class="button secondary" href="#tabela">Ver tabela ASCII</a>
+            </div>
+          </div>
+        </header>
+
+        <section class="section">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Introdução</p>
+              <h2>Porque ï¿½ que isto ï¿½ importante?</h2>
+              <p class="lead">ASCII ï¿½ uma tabela que associa caracteres a nï¿½meros. Esta ideia ajuda-nos a perceber que, por trï¿½s de letras, nï¿½meros e sï¿½mbolos, o computador trabalha com cï¿½digos.</p>
+            </div>
+            <div class="card-grid">
+              <article class="card">
+                <strong>Letras</strong>
+                <p>Uma letra como <b>A</b> tem um cï¿½digo numï¿½rico. Em ASCII, esse cï¿½digo ï¿½ 65.</p>
+              </article>
+              <article class="card">
+                <strong>Nï¿½meros escritos</strong>
+                <p>O carï¿½cter <b>5</b> tambï¿½m tem cï¿½digo ASCII. Não ï¿½ o valor cinco, ï¿½ o sï¿½mbolo escrito.</p>
+              </article>
+              <article class="card">
+                <strong>Sï¿½mbolos</strong>
+                <p>Sï¿½mbolos como <b>!</b>, <b>#</b> ou <b>@</b> tambï¿½m tï¿½m cï¿½digos prï¿½prios.</p>
+              </article>
+              <article class="card">
+                <strong>Espaï¿½o</strong>
+                <p>Atï¿½ o espaï¿½o entre palavras ï¿½ um carï¿½cter. Em ASCII, o espaï¿½o ï¿½ 32.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section alt" id="ascii">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Conceito base</p>
+              <h2>O que ï¿½ ASCII?</h2>
+              <p class="lead">ASCII significa uma tabela de cï¿½digos para representar caracteres. Cada carï¿½cter fica associado a um nï¿½mero.</p>
+            </div>
+            <div class="table-wrap">
+              <table class="mini-table">
+                <thead>
+                  <tr>
+                    <th>Carï¿½cter</th>
+                    <th>Código ASCII em decimal</th>
+                    <th>Leitura simples</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="char-cell">A</td>
+                    <td><span class="code-pill dec">65</span></td>
+                    <td>A letra maiï¿½scula A ï¿½ representada pelo nï¿½mero 65.</td>
+                  </tr>
+                  <tr>
+                    <td class="char-cell">B</td>
+                    <td><span class="code-pill dec">66</span></td>
+                    <td>A letra B vem logo a seguir, por isso usa o nï¿½mero 66.</td>
+                  </tr>
+                  <tr>
+                    <td class="char-cell">a</td>
+                    <td><span class="code-pill dec">97</span></td>
+                    <td>A letra minï¿½scula a tem outro cï¿½digo: 97.</td>
+                  </tr>
+                  <tr>
+                    <td class="char-cell">espaï¿½o</td>
+                    <td><span class="code-pill dec">32</span></td>
+                    <td>O espaï¿½o tambï¿½m conta como carï¿½cter.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="sistemas">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Representações</p>
+              <h2>Sistemas numï¿½ricos</h2>
+              <p class="lead">O mesmo valor pode ser escrito de vï¿½rias formas. A Calculadora do Windows em modo Programador mostra estas conversï¿½es de forma muito prática.</p>
+            </div>
+            <div class="table-wrap">
+              <table class="mini-table">
+                <thead>
+                  <tr>
+                    <th>Abreviatura</th>
+                    <th>Nome</th>
+                    <th>Base</th>
+                    <th>Para que serve</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="code-pill dec">DEC</span></td>
+                    <td>Decimal</td>
+                    <td>Base 10</td>
+                    <td>ï¿½ o sistema que usamos no dia a dia: 0 a 9.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="code-pill bin">BIN</span></td>
+                    <td>Binï¿½rio</td>
+                    <td>Base 2</td>
+                    <td>Usa apenas 0 e 1. ï¿½ essencial para o computador.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="code-pill oct">OCT</span></td>
+                    <td>Octal</td>
+                    <td>Base 8</td>
+                    <td>Usa os algarismos de 0 a 7.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="code-pill hex">HEX</span></td>
+                    <td>Hexadecimal</td>
+                    <td>Base 16</td>
+                    <td>Usa 0 a 9 e A a F. ï¿½ muito usado em programação.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="section alt" id="exemplo-a">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Exemplo guiado</p>
+              <h2>Exemplo com a letra A</h2>
+              <p class="lead">A letra A ï¿½ um bom ponto de partida porque aparece muitas vezes em tabelas ASCII e ï¿½ fácil de testar na Calculadora do Windows.</p>
+            </div>
+            <div class="example-card">
+              <div class="big-letter" aria-label="Letra A">A</div>
+              <div class="value-grid">
+                <div class="value-box">
+                  <span>Carï¿½cter</span>
+                  <strong>A</strong>
+                </div>
+                <div class="value-box">
+                  <span>DEC</span>
+                  <strong>65</strong>
+                </div>
+                <div class="value-box">
+                  <span>HEX</span>
+                  <strong>41</strong>
+                </div>
+                <div class="value-box">
+                  <span>OCT</span>
+                  <strong>101</strong>
+                </div>
+                <div class="value-box">
+                  <span>BIN</span>
+                  <strong>1000001</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="calculadora">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Passo a passo</p>
+              <h2>Como usar a Calculadora do Windows</h2>
+              <p class="lead">A Calculadora do Windows tem um modo Programador que mostra automaticamente as vï¿½rias representações do mesmo nï¿½mero.</p>
+            </div>
+            <div class="steps">
+              <div class="step">Abrir a <strong>Calculadora</strong> do Windows.</div>
+              <div class="step">Abrir o menu da Calculadora e escolher o modo <strong>Programador</strong>.</div>
+              <div class="step">Selecionar <strong>DEC</strong>, porque vamos comeï¿½ar pelo nï¿½mero decimal.</div>
+              <div class="step">Escrever <strong>65</strong>.</div>
+              <div class="step">Observar as conversï¿½es em <strong>HEX</strong>, <strong>OCT</strong> e <strong>BIN</strong>.</div>
+            </div>
+            <p class="note">Objetivo do exercício: perceber que o mesmo valor decimal 65 pode ser visto como 41 em hexadecimal, 101 em octal e 1000001 em binï¿½rio.</p>
+          </div>
+        </section>
+
+        <section class="section alt" id="ferramenta">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Experimentar</p>
+              <h2>Ferramenta interativa</h2>
+              <p class="lead">Escreve uma letra ou sï¿½mbolo e vï¿½ como esse carï¿½cter ï¿½ representado nos diferentes sistemas numï¿½ricos.</p>
+            </div>
+            <div class="tool">
+              <div class="converter">
+                <label for="ascii-input">
+                  Escreve um carï¿½cter
+                  <input id="ascii-input" maxlength="1" value="A" aria-describedby="tool-help">
+                </label>
+                <div class="result-grid" aria-live="polite">
+                  <div class="result">
+                    <span>Carï¿½cter</span>
+                    <strong id="out-char">A</strong>
+                  </div>
+                  <div class="result">
+                    <span>DEC</span>
+                    <strong id="out-dec">65</strong>
+                  </div>
+                  <div class="result">
+                    <span>HEX</span>
+                    <strong id="out-hex">41</strong>
+                  </div>
+                  <div class="result">
+                    <span>OCT</span>
+                    <strong id="out-oct">101</strong>
+                  </div>
+                  <div class="result">
+                    <span>BIN</span>
+                    <strong id="out-bin">1000001</strong>
+                  </div>
+                </div>
+              </div>
+              <p class="note" id="tool-help">Usa caracteres da tabela ASCII bï¿½sica. Se escreveres mais do que um carï¿½cter, a ferramenta usa apenas o primeiro.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="tabela">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Consulta rï¿½pida</p>
+              <h2>Tabela ASCII bï¿½sica</h2>
+              <p class="lead">Esta tabela mostra alguns dos caracteres mais usados e a sua representação em decimal, hexadecimal, octal e binï¿½rio.</p>
+            </div>
+            <div class="table-wrap">
+              <table class="ascii-table">
+                <thead>
+                  <tr>
+                    <th>Carï¿½cter</th>
+                    <th>DEC</th>
+                    <th>HEX</th>
+                    <th>OCT</th>
+                    <th>BIN</th>
+                  </tr>
+                </thead>
+                <tbody id="ascii-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="section alt" id="atividade">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Prática</p>
+              <h2>Atividade prática para os formandos</h2>
+              <p class="lead">Resolve estes pequenos desafios com a tabela e com a Calculadora do Windows em modo Programador.</p>
+            </div>
+            <ul class="exercise-list">
+              <li>Descobrir o cï¿½digo ASCII da letra <strong>A</strong>.</li>
+              <li>Converter <strong>65</strong> para binï¿½rio.</li>
+              <li>Comparar <strong>A</strong> e <strong>a</strong>. O que muda?</li>
+              <li>Escrever o nome prï¿½prio e procurar os cï¿½digos ASCII das primeiras letras.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Resumo</p>
+              <h2>Ideias principais a guardar</h2>
+            </div>
+            <div class="summary-grid">
+              <article class="card">
+                <strong>ASCII</strong>
+                <p>Transforma caracteres em nï¿½meros.</p>
+              </article>
+              <article class="card">
+                <strong>Decimal</strong>
+                <p>ï¿½ mais fácil para nï¿½s, porque ï¿½ o sistema que usamos todos os dias.</p>
+              </article>
+              <article class="card">
+                <strong>Binï¿½rio</strong>
+                <p>ï¿½ essencial para o computador, porque usa apenas 0 e 1.</p>
+              </article>
+              <article class="card">
+                <strong>Hexadecimal</strong>
+                <p>ï¿½ muito usado em programação por ser mais compacto do que o binï¿½rio.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+    </main>
+    <div class="floating-actions" aria-label="Ações rápidas"><a href="../index.html#inicio" aria-label="Página inicial" title="Página inicial"><span class="float-icon icon-home" aria-hidden="true"></span></a><button type="button" data-action="top" aria-label="Voltar ao topo" title="Voltar ao topo"><span class="float-icon icon-top" aria-hidden="true"></span></button><button type="button" data-action="print" aria-label="Imprimir" title="Imprimir"><span class="float-icon icon-print" aria-hidden="true"></span></button></div>
+
+    <script src="../assets/config.js"></script>
+    <script src="../assets/app.js?v=20260601-menu-3776-fallback"></script>
+    <script>
+      const asciiCodes = [
+        32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+        48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
+        64,
+        65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+        91, 92, 93, 95,
+        97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122
+      ];
+
+      const input = document.getElementById("ascii-input");
+      const outputChar = document.getElementById("out-char");
+      const outputDec = document.getElementById("out-dec");
+      const outputHex = document.getElementById("out-hex");
+      const outputOct = document.getElementById("out-oct");
+      const outputBin = document.getElementById("out-bin");
+      const tableBody = document.getElementById("ascii-table-body");
+
+      function labelFor(code) {
+        return code === 32 ? "espaï¿½o" : String.fromCharCode(code);
+      }
+
+      function valuesFor(code) {
+        return {
+          char: labelFor(code),
+          dec: String(code),
+          hex: code.toString(16).toUpperCase(),
+          oct: code.toString(8),
+          bin: code.toString(2)
+        };
+      }
+
+      function updateTool() {
+        const value = input.value || " ";
+        const char = value.charAt(0);
+        const code = char.charCodeAt(0);
+        const values = valuesFor(code);
+
+        outputChar.textContent = values.char;
+        outputDec.textContent = values.dec;
+        outputHex.textContent = values.hex;
+        outputOct.textContent = values.oct;
+        outputBin.textContent = values.bin;
+      }
+
+      function buildAsciiTable() {
+        asciiCodes.forEach(function(code) {
+          const values = valuesFor(code);
+          const row = document.createElement("tr");
+          ["char", "dec", "hex", "oct", "bin"].forEach(function(key) {
+            const cell = document.createElement("td");
+            cell.textContent = values[key];
+            if (key === "char") {
+              cell.className = "char-cell";
+            }
+            row.appendChild(cell);
+          });
+          tableBody.appendChild(row);
+        });
+      }
+
+      input.addEventListener("input", updateTool);
+      buildAsciiTable();
+      updateTool();
+    </script>
+    <script src="../assets/nav-fallback.js?v=20260601"></script>
+  </body>
+</html>
+
+
+
+

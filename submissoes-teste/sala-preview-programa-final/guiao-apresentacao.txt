@@ -1,0 +1,19 @@
+Guiao curto para apresentar o programa
+
+1. Apresentar o problema
+   O programa converte uma temperatura de Celsius para Fahrenheit.
+
+2. Explicar a entrada
+   O utilizador escreve uma temperatura em graus Celsius.
+
+3. Explicar o processamento
+   O programa aplica a formula de conversao e depois classifica a temperatura.
+
+4. Mostrar o codigo
+   Destacar as variaveis, a formula e a estrutura if / else if / else.
+
+5. Testar ao vivo
+   Usar os valores 25, 5 e 35 para mostrar resultados diferentes.
+
+6. Conclusao
+   O programa usa entrada, processamento, saida e decisao, que sao conceitos fundamentais da UFCD.

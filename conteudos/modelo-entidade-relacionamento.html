@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UFCD 10788 | Modelo Entidade-Relacionamento</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <style>
+      :root {
+        --azul: #1E3A8A;
+        --azul-claro: #3B82F6;
+        --laranja: #F97316;
+        --verde: #16A34A;
+        --roxo: #7C3AED;
+        --texto: #243044;
+        --suave: #64748B;
+        --linha: #D8E3F5;
+        --fundo: #F5F8FC;
+        --cartao: #FFFFFF;
+        --sombra: 0 18px 40px rgba(30, 58, 138, 0.12);
+        --raio: 8px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--fundo);
+        color: var(--texto);
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(220px, 270px) minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 30;
+        width: var(--sidebar);
+        height: 100vh;
+        overflow-y: auto;
+        border-right: 1px solid var(--cor-linha);
+        padding: 20px 14px;
+        background: var(--cor-branco);
+      }
+
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 26px;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        border-radius: var(--raio);
+        background: var(--azul);
+        color: #FFFFFF;
+        font-weight: 900;
+      }
+
+      .brand strong {
+        display: block;
+        color: #58708A;
+        font-size: 0.8rem;
+        line-height: 1.35;
+      }
+
+      .nav {
+        display: grid;
+        gap: 4px;
+      }
+
+      .nav a,
+      .nav span,
+      .nav button {
+        border-radius: var(--raio);
+        padding: 10px 12px;
+        color: var(--texto);
+        background: transparent;
+        border: 0;
+        font: inherit;
+        text-align: left;
+        text-decoration: none;
+      }
+
+      .nav a:hover,
+      .nav a.active,
+      .nav button:hover {
+        background: #DBEAFE;
+        color: var(--azul);
+      }
+
+      .nav button {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .nav-group {
+        margin-top: 6px;
+        padding-bottom: 2px;
+        color: var(--azul);
+        font-size: 0.86rem;
+        font-weight: 900;
+      }
+
+      .nav-sub {
+        display: grid;
+        gap: 2px;
+        margin-left: 12px;
+        padding-left: 10px;
+        border-left: 2px solid var(--linha);
+      }
+
+      .nav-sub a,
+      .nav-sub span {
+        padding: 8px 10px;
+        font-size: 0.92rem;
+      }
+
+      .nav-sub span {
+        color: var(--suave);
+        opacity: 0.78;
+      }
+
+      .nav-sub small {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .main {
+        min-width: 0;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(48px, 8vw, 86px) clamp(22px, 6vw, 76px);
+        color: #FFFFFF;
+        background:
+          linear-gradient(135deg, rgba(30, 58, 138, 0.95), rgba(22, 163, 74, 0.82)),
+          #1E3A8A;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0;
+        height: 7px;
+        background: linear-gradient(90deg, var(--laranja), var(--verde), var(--azul));
+      }
+
+      .hero-inner,
+      .section-inner {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--laranja);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        color: var(--azul);
+        line-height: 1.15;
+      }
+
+      .hero h1 {
+        max-width: 820px;
+        color: #FFFFFF;
+        font-size: clamp(2.3rem, 5vw, 4.4rem);
+      }
+
+      .hero p {
+        max-width: 760px;
+        margin: 18px 0 0;
+        color: rgba(255, 255, 255, 0.92);
+        font-size: clamp(1rem, 1.6vw, 1.2rem);
+      }
+
+      .hero-actions,
+      .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border: 0;
+        border-radius: var(--raio);
+        padding: 10px 14px;
+        background: var(--laranja);
+        color: #FFFFFF;
+        font: inherit;
+        font-weight: 900;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .button.secondary {
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.36);
+      }
+
+      .section {
+        padding: clamp(42px, 6vw, 72px) 0;
+      }
+
+      .section.alt {
+        background: #EAF2FF;
+      }
+
+      .section-heading {
+        max-width: 780px;
+        margin-bottom: 24px;
+      }
+
+      .section-heading h2 {
+        font-size: clamp(1.7rem, 3vw, 2.6rem);
+      }
+
+      .lead {
+        margin: 12px 0 0;
+        color: var(--suave);
+        font-size: 1.06rem;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card,
+      .table-wrap,
+      .tool,
+      .diagram-panel {
+        border: 1px solid var(--linha);
+        border-radius: var(--raio);
+        background: var(--cartao);
+        box-shadow: var(--sombra);
+      }
+
+      .card {
+        padding: clamp(18px, 2.4vw, 24px);
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--azul);
+        font-size: 1.1rem;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 5px 9px;
+        color: #FFFFFF;
+        font-size: 0.78rem;
+        font-weight: 900;
+      }
+
+      .tag.entity {
+        background: var(--azul-claro);
+      }
+
+      .tag.attribute {
+        background: var(--verde);
+      }
+
+      .tag.key {
+        background: var(--laranja);
+      }
+
+      .tag.relation {
+        background: var(--roxo);
+      }
+
+      .info-list {
+        display: grid;
+        gap: 10px;
+        margin: 12px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .info-list li {
+        border-left: 5px solid var(--azul-claro);
+        border-radius: var(--raio);
+        padding: 10px 12px;
+        background: #F8FBFF;
+      }
+
+      .mini-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .mini-table th,
+      .mini-table td {
+        border-bottom: 1px solid var(--linha);
+        padding: 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .mini-table th {
+        color: var(--azul);
+        background: #F8FBFF;
+        font-size: 0.86rem;
+        text-transform: uppercase;
+      }
+
+      .mini-table tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .table-wrap {
+        overflow: auto;
+      }
+
+      .diagram-panel {
+        overflow: auto;
+        padding: clamp(18px, 3vw, 30px);
+      }
+
+      .er-diagram {
+        display: grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(180px, 0.7fr) minmax(220px, 1fr) minmax(180px, 0.7fr) minmax(220px, 1fr);
+        gap: 14px;
+        align-items: center;
+        min-width: 860px;
+      }
+
+      .entity-box {
+        overflow: hidden;
+        border: 2px solid var(--azul-claro);
+        border-radius: var(--raio);
+        background: #FFFFFF;
+      }
+
+      .entity-box h3 {
+        padding: 12px 14px;
+        background: #DBEAFE;
+        color: var(--azul);
+        font-size: 1.15rem;
+      }
+
+      .entity-box ul {
+        display: grid;
+        gap: 6px;
+        margin: 0;
+        padding: 14px;
+        list-style: none;
+      }
+
+      .entity-box li {
+        border-radius: 7px;
+        padding: 7px 9px;
+        background: #F8FBFF;
+      }
+
+      .entity-box .pk {
+        color: #9A3412;
+        font-weight: 900;
+      }
+
+      .entity-box .fk {
+        color: var(--roxo);
+        font-weight: 900;
+      }
+
+      .relationship-line {
+        display: grid;
+        gap: 8px;
+        justify-items: center;
+        color: var(--roxo);
+        font-weight: 900;
+        text-align: center;
+      }
+
+      .relationship-line::before,
+      .relationship-line::after {
+        content: "";
+        width: 100%;
+        height: 3px;
+        border-radius: 999px;
+        background: var(--roxo);
+      }
+
+      .relationship-label {
+        border: 1px solid #DDD6FE;
+        border-radius: var(--raio);
+        padding: 8px 10px;
+        background: #F5F3FF;
+      }
+
+      .cardinality-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .cardinality-card {
+        border-top: 7px solid var(--roxo);
+      }
+
+      .tool {
+        padding: clamp(18px, 2.6vw, 28px);
+      }
+
+      .tool-grid {
+        display: grid;
+        grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
+        gap: 18px;
+      }
+
+      .tool label {
+        display: grid;
+        gap: 8px;
+        color: var(--azul);
+        font-weight: 900;
+      }
+
+      .tool select {
+        width: 100%;
+        border: 1px solid var(--linha);
+        border-radius: var(--raio);
+        padding: 12px 14px;
+        background: #FFFFFF;
+        color: var(--texto);
+        font: inherit;
+      }
+
+      .example-output {
+        display: grid;
+        gap: 12px;
+      }
+
+      .output-card {
+        border: 1px solid var(--linha);
+        border-radius: var(--raio);
+        padding: 14px;
+        background: #F8FBFF;
+      }
+
+      .output-card h3 {
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+      }
+
+      .pill-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .pill-list span {
+        border-radius: 999px;
+        padding: 6px 9px;
+        background: #FFFFFF;
+        color: var(--azul);
+        font-weight: 800;
+      }
+
+      .exercise-list,
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .exercise-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .exercise-list li {
+        border-left: 5px solid var(--laranja);
+        border-radius: var(--raio);
+        padding: 14px 16px;
+        background: #FFFFFF;
+      }
+
+      .summary-grid .card {
+        box-shadow: none;
+      }
+
+      @media (max-width: 980px) {
+        .layout {
+          display: block;
+        }
+
+        .sidebar {
+          position: static;
+          height: auto;
+        }
+
+        .nav,
+        .card-grid,
+        .cardinality-grid,
+        .summary-grid,
+        .exercise-list {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .nav {
+          display: grid;
+        }
+
+        .tool-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .nav,
+        .card-grid,
+        .cardinality-grid,
+        .summary-grid,
+        .exercise-list {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body data-depth="sub">
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <aside class="sidebar" aria-label="Menu principal">
+      <a class="brand" href="../index.html#inicio"><span class="brand-mark">10788</span><span><strong>Fundamentos da linguagem SQL</strong></span></a>
+      <nav class="side-nav">
+        <a href="../index.html#inicio">Início</a>
+        <a href="../index.html#objetivos">Objetivos</a>
+        <a href="../index.html#metodologia">Metodologia</a>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-conteudos">
+          Conteúdos
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu" id="submenu-conteudos">
+          <a href="../conteudos/introducao-bases-dados.html">Introdução a bases de dados</a>
+          <a href="../conteudos/ambientes-bases-dados.html">Ambientes de bases de dados</a>
+          <a href="../conteudos/terminologia-relacional.html">Terminologia de bases de dados relacionais</a>
+          <a href="../conteudos/planeamento-desenho.html">Planeamento e desenho de bases de dados</a>
+          <a href="../conteudos/introducao-sql.html">Introdução ao SQL</a>
+          <a href="../conteudos/criacao-bases-dados.html">Criação de bases de dados</a>
+          <a href="../conteudos/tabelas-integridade.html">Tabelas e integridade de dados</a>
+          <a href="../conteudos/fundamentos-transact-sql.html">Fundamentos de Transact-SQL</a>
+          <a href="../conteudos/filtragem-ordenacao.html">Filtragem e ordenação de dados</a>
+        </div>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-atividades">
+          Atividades
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu activity-submenu" id="submenu-atividades">
+          <a href="../atividades/controlo-teams.html">Partilha de ecrã</a>
+          <a href="../atividades/brainstorming.html">Brainstorming</a>
+          <a href="../atividades/tarefas-individuais.html">Tarefas individuais</a>
+          <div class="submenu-children">
+            <a href="../atividades/acompanhamento-ti.html">Acompanhamento TI</a>
+          </div>
+          <a href="../atividades/tarefas-grupo.html">Tarefas de grupo</a>
+          <div class="submenu-children">
+            <a href="../atividades/acompanhamento-tg.html">Acompanhamento TG</a>
+          </div>
+          <a href="../atividades/laboratorio-sql.html">Laboratório SQL</a>
+          <div class="submenu-children">
+            <a href="../atividades/programa-final.html">Projeto final</a>
+            <a href="../atividades/galeria-projetos.html">Galeria</a>
+          </div>
+        </div>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-avaliacao">
+          Avaliação
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu evaluation-submenu" id="submenu-avaliacao">
+          <a href="../avaliacao/avaliacao-diagnostica.html">Diagnóstica</a>
+          <div class="submenu-children">
+            <a href="../avaliacao/resultados-diagnostica.html">Resultados</a>
+          </div>
+          <a href="../avaliacao/avaliacao-sumativa.html">Sumativa</a>
+          <a href="../avaliacao/autoavaliacao-final.html">Autoavaliação</a>
+          <a href="../avaliacao/avaliacao-entre-pares.html">Entre pares</a>
+          <a href="../avaliacao/avaliacao-formacao.html">Formação</a>
+        </div>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-recursos">
+          Recursos
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu resource-submenu" id="submenu-recursos">
+          <a href="../recursos/manual.html">Manual para download</a>
+          <a href="../recursos/assistente-gpt.html">Assistente UFCD 10788</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="page-shell custom-content-page" id="topo">
+        <header class="hero">
+          <div class="hero-inner">
+            <h1>Modelo Entidade-Relacionamento</h1>
+            <p>Um modelo Entidade-Relacionamento ï¿½ usado para representar, de forma visual, os dados de um sistema e as ligações entre eles. Ajuda a planear uma base de dados antes de a criar.</p>
+            <div class="hero-actions">
+              <a class="button" href="#exemplo">Ver exemplo completo</a>
+              <a class="button secondary" href="#ferramenta">Experimentar ferramenta</a>
+            </div>
+          </div>
+        </header>
+
+        <section class="section">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Ideia principal</p>
+              <h2>Planear antes de criar</h2>
+              <p class="lead">Antes de construir tabelas numa base de dados, ï¿½ ï¿½til desenhar que informação queremos guardar e como essa informação se relaciona.</p>
+            </div>
+            <div class="card-grid">
+              <article class="card">
+                <span class="tag entity">Entidade</span>
+                <strong>O que queremos guardar</strong>
+                <p>Por exemplo: Cliente, Produto, Encomenda, Aluno ou Curso.</p>
+              </article>
+              <article class="card">
+                <span class="tag attribute">Atributo</span>
+                <strong>Como descrevemos</strong>
+                <p>Por exemplo: nome, email, preï¿½o, stock ou data de nascimento.</p>
+              </article>
+              <article class="card">
+                <span class="tag relation">Relacionamento</span>
+                <strong>Como ligamos</strong>
+                <p>Por exemplo: um cliente faz encomendas ou um aluno frequenta cursos.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section alt" id="entidades">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Entidades e atributos</p>
+              <h2>O que guardamos e como descrevemos</h2>
+            </div>
+            <div class="card-grid">
+              <article class="card">
+                <h3>O que ï¿½ uma entidade?</h3>
+                <p>Uma entidade representa algo importante sobre o qual queremos guardar informação.</p>
+                <ul class="info-list">
+                  <li>Cliente</li>
+                  <li>Produto</li>
+                  <li>Encomenda</li>
+                  <li>Aluno</li>
+                  <li>Curso</li>
+                </ul>
+              </article>
+              <article class="card">
+                <h3>O que ï¿½ um atributo?</h3>
+                <p>Um atributo ï¿½ uma caracterï¿½stica de uma entidade.</p>
+                <ul class="info-list">
+                  <li><strong>Cliente:</strong> nome, email, telefone</li>
+                  <li><strong>Produto:</strong> nome, preï¿½o, stock</li>
+                  <li><strong>Aluno:</strong> nï¿½mero, nome, data de nascimento</li>
+                </ul>
+              </article>
+              <article class="card">
+                <h3>O que ï¿½ um relacionamento?</h3>
+                <p>Um relacionamento mostra como duas entidades estáo ligadas.</p>
+                <ul class="info-list">
+                  <li>Um cliente faz encomendas</li>
+                  <li>Um aluno frequenta cursos</li>
+                  <li>Uma encomenda contï¿½m produtos</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="cardinalidade">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Quantidade de ligações</p>
+              <h2>Cardinalidade</h2>
+              <p class="lead">A cardinalidade indica quantos registos de uma entidade podem estar ligados a registos de outra entidade.</p>
+            </div>
+            <div class="cardinality-grid">
+              <article class="card cardinality-card">
+                <strong>1 para 1</strong>
+                <p>Uma pessoa tem um cartï¿½o de cidadï¿½o. Cada cartï¿½o pertence a uma pessoa.</p>
+              </article>
+              <article class="card cardinality-card">
+                <strong>1 para muitos</strong>
+                <p>Um cliente pode fazer vï¿½rias encomendas, mas cada encomenda pertence a um cliente.</p>
+              </article>
+              <article class="card cardinality-card">
+                <strong>Muitos para muitos</strong>
+                <p>Um aluno pode frequentar vï¿½rios cursos e um curso pode ter vï¿½rios alunos.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section alt" id="chaves">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Identificar e ligar</p>
+              <h2>Chave primï¿½ria e chave estrangeira</h2>
+            </div>
+            <div class="card-grid">
+              <article class="card">
+                <span class="tag key">Chave primï¿½ria</span>
+                <strong>Identifica cada registo</strong>
+                <p>A chave primï¿½ria identifica de forma ï¿½nica cada registo de uma entidade.</p>
+                <ul class="info-list">
+                  <li>id_cliente</li>
+                  <li>id_produto</li>
+                  <li>numero_aluno</li>
+                </ul>
+              </article>
+              <article class="card">
+                <span class="tag relation">Chave estrangeira</span>
+                <strong>Liga uma tabela a outra</strong>
+                <p>A chave estrangeira guarda a chave de outra tabela para criar uma ligação.</p>
+                <p>Exemplo: uma tabela Encomenda pode ter <strong>id_cliente</strong> para indicar que cliente fez a encomenda.</p>
+              </article>
+              <article class="card">
+                <span class="tag attribute">Dica</span>
+                <strong>Nome claro ajuda muito</strong>
+                <p>Usar nomes como <strong>id_cliente</strong> ou <strong>id_produto</strong> ajuda a perceber rapidamente que dados estáo ligados.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="exemplo">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Exemplo completo</p>
+              <h2>Cliente, Encomenda e Produto</h2>
+              <p class="lead">Neste exemplo, um cliente faz encomendas e uma encomenda contï¿½m produtos.</p>
+            </div>
+            <div class="diagram-panel">
+              <div class="er-diagram" aria-label="Diagrama Entidade-Relacionamento">
+                <article class="entity-box">
+                  <h3>Cliente</h3>
+                  <ul>
+                    <li class="pk">PK id_cliente</li>
+                    <li>nome</li>
+                    <li>email</li>
+                  </ul>
+                </article>
+
+                <div class="relationship-line">
+                  <span class="relationship-label">faz<br>1 : N</span>
+                </div>
+
+                <article class="entity-box">
+                  <h3>Encomenda</h3>
+                  <ul>
+                    <li class="pk">PK id_encomenda</li>
+                    <li>data</li>
+                    <li class="fk">FK id_cliente</li>
+                  </ul>
+                </article>
+
+                <div class="relationship-line">
+                  <span class="relationship-label">contï¿½m<br>N : N</span>
+                </div>
+
+                <article class="entity-box">
+                  <h3>Produto</h3>
+                  <ul>
+                    <li class="pk">PK id_produto</li>
+                    <li>nome</li>
+                    <li>preï¿½o</li>
+                  </ul>
+                </article>
+              </div>
+            </div>
+            <div class="table-wrap" style="margin-top: 18px;">
+              <table class="mini-table">
+                <thead>
+                  <tr>
+                    <th>Entidade</th>
+                    <th>Atributos</th>
+                    <th>Observação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Cliente</td>
+                    <td>id_cliente, nome, email</td>
+                    <td>id_cliente identifica cada cliente.</td>
+                  </tr>
+                  <tr>
+                    <td>Encomenda</td>
+                    <td>id_encomenda, data, id_cliente</td>
+                    <td>id_cliente liga a encomenda ao cliente.</td>
+                  </tr>
+                  <tr>
+                    <td>Produto</td>
+                    <td>id_produto, nome, preï¿½o</td>
+                    <td>id_produto identifica cada produto.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="section alt" id="ferramenta">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Experimentar</p>
+              <h2>Ferramenta interativa</h2>
+              <p class="lead">Escolhe um exemplo e vï¿½ automaticamente as entidades principais, atributos, relacionamentos e uma cardinalidade provï¿½vel.</p>
+            </div>
+            <div class="tool">
+              <div class="tool-grid">
+                <label for="scenario-select">
+                  Escolher exemplo
+                  <select id="scenario-select">
+                    <option value="loja">Loja online</option>
+                    <option value="biblioteca">Biblioteca</option>
+                    <option value="escola">Escola</option>
+                  </select>
+                </label>
+                <div class="example-output" aria-live="polite">
+                  <article class="output-card">
+                    <h3>Entidades principais</h3>
+                    <div class="pill-list" id="out-entities"></div>
+                  </article>
+                  <article class="output-card">
+                    <h3>Atributos</h3>
+                    <div id="out-attributes"></div>
+                  </article>
+                  <article class="output-card">
+                    <h3>Relacionamentos e cardinalidade</h3>
+                    <div id="out-relations"></div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="atividade">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Prática</p>
+              <h2>Atividade prática para os formandos</h2>
+            </div>
+            <ul class="exercise-list">
+              <li>Identificar entidades num sistema de biblioteca.</li>
+              <li>Definir atributos para Livro, Leitor e Emprï¿½stimo.</li>
+              <li>Indicar os relacionamentos entre essas entidades.</li>
+              <li>Escolher uma chave primï¿½ria para cada entidade.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section alt">
+          <div class="section-inner">
+            <div class="section-heading">
+              <p class="eyebrow">Resumo</p>
+              <h2>Ideias principais a guardar</h2>
+            </div>
+            <div class="summary-grid">
+              <article class="card">
+                <strong>Entidades</strong>
+                <p>Representam coisas importantes sobre as quais queremos guardar informação.</p>
+              </article>
+              <article class="card">
+                <strong>Atributos</strong>
+                <p>Descrevem as entidades.</p>
+              </article>
+              <article class="card">
+                <strong>Relacionamentos</strong>
+                <p>Ligam entidades entre si.</p>
+              </article>
+              <article class="card">
+                <strong>Chaves</strong>
+                <p>Chaves primï¿½rias identificam registos e chaves estrangeiras criam ligações entre tabelas.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+    </main>
+    <div class="floating-actions" aria-label="Ações rápidas"><a href="../index.html#inicio" aria-label="Página inicial" title="Página inicial"><span class="float-icon icon-home" aria-hidden="true"></span></a><button type="button" data-action="top" aria-label="Voltar ao topo" title="Voltar ao topo"><span class="float-icon icon-top" aria-hidden="true"></span></button><button type="button" data-action="print" aria-label="Imprimir" title="Imprimir"><span class="float-icon icon-print" aria-hidden="true"></span></button></div>
+
+    <script src="../assets/config.js"></script>
+    <script src="../assets/app.js?v=20260601-menu-3776-fallback"></script>
+    <script>
+      const scenarios = {
+        loja: {
+          entities: ["Cliente", "Encomenda", "Produto"],
+          attributes: {
+            Cliente: ["id_cliente", "nome", "email"],
+            Encomenda: ["id_encomenda", "data", "id_cliente"],
+            Produto: ["id_produto", "nome", "preï¿½o", "stock"]
+          },
+          relations: [
+            "Cliente faz Encomenda: 1 para muitos",
+            "Encomenda contï¿½m Produto: muitos para muitos"
+          ]
+        },
+        biblioteca: {
+          entities: ["Livro", "Leitor", "Emprï¿½stimo"],
+          attributes: {
+            Livro: ["id_livro", "tï¿½tulo", "autor"],
+            Leitor: ["id_leitor", "nome", "email"],
+            Emprï¿½stimo: ["id_emprestimo", "data_inicio", "data_devolucao", "id_livro", "id_leitor"]
+          },
+          relations: [
+            "Leitor faz Emprï¿½stimo: 1 para muitos",
+            "Emprï¿½stimo regista Livro: muitos para 1"
+          ]
+        },
+        escola: {
+          entities: ["Aluno", "Curso", "Inscriï¿½ï¿½o"],
+          attributes: {
+            Aluno: ["numero_aluno", "nome", "data_nascimento"],
+            Curso: ["id_curso", "nome", "duração"],
+            Inscriï¿½ï¿½o: ["id_inscricao", "numero_aluno", "id_curso", "data"]
+          },
+          relations: [
+            "Aluno frequenta Curso: muitos para muitos",
+            "Inscriï¿½ï¿½o liga Aluno e Curso"
+          ]
+        }
+      };
+
+      const select = document.getElementById("scenario-select");
+      const outEntities = document.getElementById("out-entities");
+      const outAttributes = document.getElementById("out-attributes");
+      const outRelations = document.getElementById("out-relations");
+
+      function renderScenario() {
+        const scenario = scenarios[select.value];
+
+        outEntities.innerHTML = scenario.entities.map(function(entity) {
+          return "<span>" + entity + "</span>";
+        }).join("");
+
+        outAttributes.innerHTML = Object.entries(scenario.attributes).map(function(entry) {
+          const entity = entry[0];
+          const attributes = entry[1].join(", ");
+          return "<p><strong>" + entity + ":</strong> " + attributes + "</p>";
+        }).join("");
+
+        outRelations.innerHTML = scenario.relations.map(function(relation) {
+          return "<p>" + relation + "</p>";
+        }).join("");
+      }
+
+      select.addEventListener("change", renderScenario);
+      renderScenario();
+    </script>
+    <script src="../assets/nav-fallback.js?v=20260601"></script>
+  </body>
+</html>
+
+
+
+

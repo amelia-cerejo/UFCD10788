@@ -1,0 +1,926 @@
+﻿<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UFCD 10788 | Modelos HTML para Moodle</title>
+    <style>
+      :root {
+        --azul: #1e3a8a;
+        --azul-claro: #3b6fd8;
+        --laranja: #f97316;
+        --amarelo: #f59e0b;
+        --texto: #374151;
+        --suave: #64748b;
+        --linha: #d7e3f8;
+        --fundo: #f8fafc;
+        --branco: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--texto);
+        background: var(--fundo);
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.6;
+      }
+
+      .topbar {
+        border-bottom: 1px solid var(--linha);
+        background: var(--branco);
+      }
+
+      .topbar-inner,
+      .page {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        min-width: 52px;
+        height: 52px;
+        border-radius: 8px;
+        color: var(--branco);
+        background: var(--azul);
+        font-weight: 800;
+      }
+
+      .brand strong {
+        display: block;
+        color: #58708a;
+        font-size: 0.86rem;
+        line-height: 1.35;
+      }
+
+      .brand span:last-child {
+        color: var(--suave);
+        font-size: 0.86rem;
+      }
+
+      .home-link {
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: var(--branco);
+        background: var(--azul-claro);
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .page {
+        padding: 36px 0 64px;
+      }
+
+      .intro {
+        max-width: 850px;
+        margin-bottom: 28px;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--laranja);
+        font-size: 0.82rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--azul);
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        line-height: 1.06;
+      }
+
+      .intro p {
+        margin: 14px 0 0;
+        font-size: 1.06rem;
+      }
+
+      .note {
+        border-left: 6px solid var(--laranja);
+        border-radius: 8px;
+        padding: 16px 18px;
+        background: #fff7ed;
+      }
+
+      .layout {
+        display: grid;
+        gap: 26px;
+      }
+
+      .template-card {
+        overflow: hidden;
+        border: 1px solid var(--linha);
+        border-radius: 8px;
+        background: var(--branco);
+        box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);
+      }
+
+      .template-head {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 18px;
+        border-bottom: 1px solid var(--linha);
+        padding: 18px;
+      }
+
+      .template-head h2 {
+        margin: 0;
+        color: var(--azul);
+        font-size: 1.24rem;
+        line-height: 1.2;
+      }
+
+      .template-head p {
+        margin: 6px 0 0;
+        color: var(--suave);
+      }
+
+      .copy-button {
+        min-width: 118px;
+        border: 0;
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: var(--branco);
+        background: var(--laranja);
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .copy-button:hover {
+        background: var(--amarelo);
+      }
+
+      .template-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 0.95fr);
+        gap: 0;
+      }
+
+      .preview,
+      .code-panel {
+        padding: 18px;
+      }
+
+      .preview {
+        background: #ffffff;
+      }
+
+      .code-panel {
+        border-left: 1px solid var(--linha);
+        background: #111827;
+      }
+
+      textarea {
+        display: block;
+        width: 100%;
+        min-height: 260px;
+        resize: vertical;
+        border: 0;
+        border-radius: 8px;
+        padding: 14px;
+        color: #e5e7eb;
+        background: #0b1120;
+        font: 0.88rem/1.5 Consolas, "Courier New", monospace;
+      }
+
+      @media (max-width: 860px) {
+        .topbar-inner,
+        .template-head {
+          display: grid;
+        }
+
+        .template-body {
+          grid-template-columns: 1fr;
+        }
+
+        .code-panel {
+          border-top: 1px solid var(--linha);
+          border-left: 0;
+        }
+
+        .home-link,
+        .copy-button {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">10788</span>
+          <span>
+            <strong>Fundamentos da linguagem SQL</strong>
+            Modelos HTML para Moodle
+          </span>
+        </a>
+        <a class="home-link" href="index.html">Voltar ao site</a>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="intro">
+        <p class="eyebrow">Moodle</p>
+        <h1>Blocos HTML com identidade visual e estilos em linha</h1>
+        <p>Esta página serve para veres os modelos antes de os colares no Moodle. Em cada bloco, a pré-visualização mostra o resultado e a caixa escura mostra o código HTML pronto a copiar.</p>
+      </section>
+
+      <section class="note" aria-label="Nota importante">
+        <strong>Como usar:</strong> escolhe o modelo, ajusta o texto dentro da caixa de código se precisares, copia o HTML e cola no editor HTML da atividade ou recurso do Moodle.
+      </section>
+
+      <section class="layout" id="templates" aria-label="Modelos Moodle"></section>
+    </main>
+
+    <script>
+      const templates = [
+        {
+          title: "Padlet incorporado",
+          description: "Bloco principal da secção, para mostrar o Padlet dentro do Moodle com a identidade visual da UFCD.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; padding-left: 20px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <div style="position: relative; margin-bottom: 14px; padding: 22px 24px 28px; background: #FFFFFF; border: 1px solid #D7E3F8; border-radius: 8px; color: #374151; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+    <h3 style="margin: 0; color: #1E3A8A; font-size: 26px; line-height: 1.18; font-weight: 900;">Fundamentos da linguagem SQL</h3>
+    <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+  </div>
+
+  <div style="padding: 16px; background: #FFFFFF; border: 1px solid #D7E3F8; border-radius: 8px; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+    <iframe
+      style="width: 100%; height: 520px; display: block; border: 0; border-radius: 8px; background: #FFFFFF;"
+      title="Padlet - UFCD 10788"
+      src="https://padlet.com/embed/ley8qtoln2fzivpa"
+      allow="camera; microphone; geolocation; display-capture; clipboard-write"
+      loading="lazy">
+    </iframe>
+
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 10px;">
+      <a style="display: inline-flex; align-items: center; gap: 6px; color: #64748B; font-size: 11px; font-family: Arial, Helvetica, sans-serif; text-decoration: none;"
+        href="https://padlet.com?ref=embed"
+        target="_blank"
+        rel="noopener">
+        Made with
+        <img
+          style="display: block; border: 0; box-shadow: none; background: transparent;"
+          src="https://padlet.net/emails/padlet_email_logo_2026_text-dark-200.png"
+          alt="Padlet"
+          height="12">
+      </a>
+    </div>
+  </div>
+</div>`
+        },
+        {
+          title: "Página de apoio - cartão da secção",
+          description: "Para aparecer na descrição da secção do Moodle e abrir a página de apoio da UFCD.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; padding: 0; font-family: Arial, Helvetica, sans-serif;">
+  <a style="display: block; text-decoration: none; color: inherit;" href="https://fad.iefp.pt/mod/page/view.php?id=380749">
+    <div style="position: relative; min-height: 150px; overflow: hidden; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+      <div style="display: flex; flex-direction: column; justify-content: center; min-height: 140px; padding: 24px 30px;">
+        <h3 style="margin: 0; max-width: 720px; color: #1E3A8A; font-size: 26px; line-height: 1.16; font-weight: 900;">Conteúdos, atividades, avaliação e recursos</h3>
+      </div>
+      <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+    </div>
+  </a>
+</div>`
+        },
+        {
+          title: "Página de apoio - conteúdo da página",
+          description: "Para colocar dentro do conteúdo da página Moodle, mostrando o site da UFCD em iframe.",
+          html: `<div style="width: 100%; margin: 0 auto; padding: 16px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-family: Arial, Helvetica, sans-serif;">
+  <iframe
+    style="width: 100%; max-width: 1500px; height: 800px; border: 0; border-radius: 8px; display: block; margin: 0 auto; background: #FFFFFF;"
+    title="UFCD 10788 - Fundamentos da linguagem SQL"
+    src="https://stunning-florentine-5a1739.netlify.app/#inicio"
+    allowfullscreen="allowfullscreen"
+    loading="lazy">
+  </iframe>
+</div>`
+        },
+        {
+          title: "Acompanhamento das tarefas individuais",
+          description: "Iframe simples para acompanhar no Moodle as entregas das tarefas individuais.",
+          html: `<div style="width: 100%; margin: 0 auto; padding: 16px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-family: Arial, Helvetica, sans-serif;">
+  <iframe
+    style="width: 100%; max-width: 1500px; height: 760px; border: 0; border-radius: 8px; display: block; margin: 0 auto; background: #FFFFFF;"
+    title="UFCD 10788 - Acompanhamento das Tarefas Individuais"
+    src="https://stunning-florentine-5a1739.netlify.app/atividades/acompanhamento-ti.html"
+    loading="lazy">
+  </iframe>
+</div>`
+        },
+        {
+          title: "Acompanhamento das tarefas de grupo",
+          description: "Iframe simples para acompanhar no Moodle as entregas das tarefas de grupo por sala.",
+          html: `<div style="width: 100%; margin: 0 auto; padding: 16px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-family: Arial, Helvetica, sans-serif;">
+  <iframe
+    style="width: 100%; max-width: 1500px; height: 760px; border: 0; border-radius: 8px; display: block; margin: 0 auto; background: #FFFFFF;"
+    title="UFCD 10788 - Acompanhamento das Tarefas de Grupo"
+    src="https://stunning-florentine-5a1739.netlify.app/atividades/acompanhamento-tg.html"
+    loading="lazy">
+  </iframe>
+</div>`
+        },
+        {
+          title: "Tarefas de grupo - glossário colaborativo",
+          description: "Para a descrição da secção de tarefas de grupo, com um bloco de glossário colaborativo.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <a style="display: block; color: inherit; text-decoration: none;" href="https://fad.iefp.pt/mod/glossary/view.php?id=385629">
+    <div style="position: relative; overflow: hidden; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+      <div style="position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 30px 34px;">
+        <div>
+          <h3 style="margin: 0; color: #1E3A8A; font-size: 26px; line-height: 1.16; font-weight: 900;">Glossário colaborativo de programação</h3>
+          <p style="margin: 12px 0 0; max-width: 760px; color: #374151; font-size: 15px; line-height: 1.6;">Todos os dias se acrescentam novos termos, definições e exemplos para construir uma base comum de vocabulário técnico.</p>
+        </div>
+        <div style="display: grid; place-items: center; width: 64px; min-width: 64px; height: 64px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; color: #1E3A8A; font-size: 30px; font-weight: 900;">TG</div>
+      </div>
+      <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+    </div>
+  </a>
+
+  <div style="margin-top: 14px; padding: 18px 20px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-size: 15px;">
+    <p style="margin: 0 0 12px; line-height: 1.6;">Atividade para construir, diariamente, o glossário colaborativo da UFCD.</p>
+    <ul style="margin: 0; padding-left: 42px; line-height: 1.65;">
+      <li>Escolhe um termo relacionado com a sessão do dia.</li>
+      <li>Explica o significado por palavras tuas.</li>
+      <li>Acrescenta um pequeno exemplo sempre que fizer sentido.</li>
+      <li>Consulta os contributos do grupo e evita repetir termos já existentes.</li>
+    </ul>
+  </div>
+</div>`
+        },
+        {
+          title: "Tarefas individuais - bloco de secção",
+          description: "Versão equivalente para a secção de tarefas individuais.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <div style="position: relative; overflow: hidden; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+    <div style="position: relative; display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 30px 34px;">
+      <div style="flex: 1 1 auto; min-width: 0;">
+        <h3 style="margin: 0; color: #1E3A8A; font-size: 26px; line-height: 1.16; font-weight: 900;">Fórum de atividades</h3>
+        <p style="margin: 12px 0 0; max-width: 760px; color: #374151; font-size: 15px; line-height: 1.6;">Fórum dedicado às tarefas, organizado por tópicos temáticos.</p>
+      </div>
+      <div style="display: grid; place-items: center; width: 64px; min-width: 64px; height: 64px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; color: #1E3A8A; font-size: 30px; font-weight: 900;">TI</div>
+    </div>
+    <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+  </div>
+
+  <div style="margin-top: 14px; padding: 18px 20px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-size: 15px;">
+    <p style="margin: 0 0 12px; line-height: 1.6;">Cada tópico corresponde a um tema da UFCD 10788 e inclui a respetiva atividade individual.</p>
+    <ul style="margin: 0; padding-left: 42px; line-height: 1.65;">
+      <li>Consulta o tópico correspondente ao tema em estudo.</li>
+      <li>Lê o enunciado com atenção antes de começar.</li>
+      <li>Resolve a tarefa de forma autónoma.</li>
+      <li>Organiza a resposta de forma clara e completa.</li>
+      <li>Sempre que fizer sentido, aplica exemplos práticos relacionados com a formação.</li>
+      <li>Revê o trabalho antes de submeter ou publicar a resposta no Moodle.</li>
+    </ul>
+  </div>
+</div>`
+        },
+        {
+          title: "Aplicar o pensamento estruturado",
+          description: "Cartão simples para a tarefa inicial criada fora dos manuais.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Organizar uma tarefa em passos lógicos, claros e sequenciais, garantindo que a solução pode ser compreendida e executada por outra pessoa.</p>
+
+  <h3 style="margin: 0 0 10px; color: #1E3A8A; font-size: 24px; line-height: 1.2; font-weight: 900;">Desafio</h3>
+  <p style="margin: 0 0 14px; font-size: 15px; line-height: 1.6;">Escolhe uma tarefa simples do quotidiano ou da formação e transforma-a numa sequência estruturada de passos.</p>
+
+  <ul style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Identifica o objetivo da tarefa.</li>
+    <li>Escreve os passos pela ordem correta.</li>
+    <li>Assinala uma decisão possível com “se... então... senão⬝.</li>
+    <li>Indica onde poderia existir repetição.</li>
+    <li>Revê se a solução é clara para outra pessoa seguir.</li>
+  </ul>
+</div>`
+        },
+        {
+          title: "Fórum 01 - Verificar se uma pessoa pode votar",
+          description: "Cartão simples para trabalhar entrada, condição, decisão e pseudocódigo.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Observa o objetivo seguinte e responde às questões.</p>
+
+  <h3 style="margin: 0 0 10px; color: #1E3A8A; font-size: 24px; line-height: 1.2; font-weight: 900;">Objetivo</h3>
+  <p style="margin: 0 0 14px; font-size: 15px; line-height: 1.6;">Verificar se uma pessoa pode votar, considerando que a idade mínima é 18 anos.</p>
+
+  <ul style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Que dados de entrada são necessários?</li>
+    <li>Qual é a condição a testar?</li>
+    <li>Que mensagem deve ser apresentada se a idade for maior ou igual a 18?</li>
+    <li>Que mensagem deve ser apresentada se a idade for menor que 18?</li>
+    <li>Escreve uma solução em pseudocódigo.</li>
+  </ul>
+</div>`
+        },
+        {
+          title: "Fórum 02 - Calcular a média de três notas",
+          description: "Cartão simples para trabalhar média, decisão e pseudocódigo.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Considera o objetivo: ler três notas e indicar se a média é suficiente ou insuficiente.</p>
+
+  <ul style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Identifica os dados de entrada necessários.</li>
+    <li>Define a fórmula para calcular a média.</li>
+    <li>Indica a condição que permite decidir se a média é suficiente.</li>
+    <li>Escreve a solução em pseudocódigo usando sequência e decisão.</li>
+    <li>Explica onde poderia existir uma repetição se o programa fosse usado para vários formandos.</li>
+  </ul>
+</div>`
+        },
+        {
+          title: "Fórum 03 - Escolher tipos de dados adequados",
+          description: "Cartão simples para identificar tipos de dados em situações concretas.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Para cada informação, indica um tipo de dado adequado.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Nome de um formando.</li>
+    <li>Idade de um formando.</li>
+    <li>Altura de uma pessoa.</li>
+    <li>Resultado de uma condição: aprovado ou não aprovado.</li>
+    <li>Lista de cinco notas.</li>
+    <li>Dados completos de um formando: nome, idade, turma e média.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Fórum 04 - Calcular a média de duas notas",
+          description: "Cartão simples para construir um algoritmo com entradas, processamento e saída.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Constrói um algoritmo em pseudocódigo para calcular a média de duas notas.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Indica que dados o programa deve pedir ao utilizador.</li>
+    <li>Define que variáveis serão necessárias.</li>
+    <li>Escreve o cálculo da média.</li>
+    <li>Indica que mensagem deve ser apresentada no final.</li>
+    <li>Explica quais são as entradas, o processamento e a saída.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Fórum 05 - Calcular o preço final com desconto",
+          description: "Cartão simples para construir um algoritmo completo em linguagem natural e pseudocódigo.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Constrói um algoritmo para calcular o preço final de um produto com desconto.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Define o problema.</li>
+    <li>Identifica as entradas necessárias.</li>
+    <li>Indica o processamento necessário.</li>
+    <li>Define a saída esperada.</li>
+    <li>Escreve o algoritmo em linguagem natural.</li>
+    <li>Escreve o algoritmo em pseudocódigo.</li>
+    <li>Testa com pelo menos dois exemplos.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Fórum 06 - Verificar se um aluno fica aprovado",
+          description: "Cartão simples para trabalhar condições, operador lógico e pseudocódigo.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Constrói a lógica para verificar se um aluno fica aprovado. Considera que o aluno fica aprovado se tiver nota maior ou igual a 10 e cumprir a assiduidade mínima.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Identifica as entradas necessárias.</li>
+    <li>Define as condições que devem ser verificadas.</li>
+    <li>Indica que operador lógico deve ser usado.</li>
+    <li>Escreve a solução em linguagem natural.</li>
+    <li>Transforma a solução em pseudocódigo.</li>
+    <li>Testa com três exemplos diferentes.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Fórum 07 - Identificar tipos básicos de algoritmos",
+          description: "Cartão simples para escolher o tipo de algoritmo adequado a cada situação.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Para cada situação, identifica o tipo de algoritmo mais adequado e justifica a escolha.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Calcular a área de um triângulo.</li>
+    <li>Verificar se uma nota é positiva ou negativa.</li>
+    <li>Somar todos os valores de uma lista.</li>
+    <li>Procurar um nome numa lista de formandos.</li>
+    <li>Ordenar uma lista de preços do menor para o maior.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Fórum 08 - Selecionar o algoritmo adequado",
+          description: "Cartão simples para selecionar e justificar estratégias algorítmicas.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Para cada problema, seleciona o tipo de algoritmo mais adequado e explica a razão da escolha.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Calcular o preço final de um produto com desconto.</li>
+    <li>Verificar se um utilizador tem permissão para aceder a uma área reservada.</li>
+    <li>Contar quantos números positivos existem numa lista.</li>
+    <li>Procurar um produto através do seu código.</li>
+    <li>Ordenar notas da maior para a menor.</li>
+    <li>Analisar se a solução escolhida é simples, clara e adequada ao tamanho dos dados.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Fórum 09 - Definir objetivos de um programa",
+          description: "Cartão simples para decompor um problema em objetivo, subtarefas, entradas, saídas e testes.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Define os objetivos para um programa que calcule o preço final de uma compra com desconto.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Define o objetivo principal do programa.</li>
+    <li>Divide o problema em pelo menos quatro subtarefas.</li>
+    <li>Indica os dados de entrada necessários.</li>
+    <li>Indica os resultados que devem ser apresentados.</li>
+    <li>Escreve o pseudocódigo da solução.</li>
+    <li>Define dois testes para verificar se o programa funciona.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Fórum 10 - Associar situações a gerações de linguagens",
+          description: "Cartão simples para relacionar situações com gerações de linguagens de programação.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Analisa as situações seguintes e indica que geração de linguagem parece mais associada a cada caso.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Escrever instruções em 0 e 1 para serem executadas pelo processador.</li>
+    <li>Usar instruções como MOV e ADD para controlar operações próximas do hardware.</li>
+    <li>Criar um programa em C para calcular uma média.</li>
+    <li>Consultar uma base de dados usando SQL.</li>
+    <li>Representar regras lógicas para resolver um problema de inteligência artificial.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Fórum 11 - Representar uma entidade como objeto",
+          description: "Cartão simples para trabalhar classes, objetos, atributos e métodos.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Escolhe uma entidade do quotidiano e representa-a como objeto.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Escolhe uma entidade, como Livro, Aluno, Produto ou Carro.</li>
+    <li>Define pelo menos três atributos.</li>
+    <li>Define pelo menos três métodos.</li>
+    <li>Indica qual seria a classe correspondente.</li>
+    <li>Cria um exemplo de objeto com valores concretos.</li>
+    <li>Explica por que motivo os atributos e métodos escolhidos fazem sentido.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Fórum 12 - Construir um fluxograma",
+          description: "Cartão simples para representar uma decisão através de fluxograma e pseudocódigo.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Constrói um fluxograma para verificar se um número é positivo, negativo ou zero.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Identifica os dados de entrada.</li>
+    <li>Define as decisões necessárias.</li>
+    <li>Indica as mensagens de saída.</li>
+    <li>Desenha o fluxograma usando os símbolos corretos.</li>
+    <li>Transforma o fluxograma em pseudocódigo.</li>
+    <li>Testa com os valores 5, -3 e 0.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Laboratório SQL",
+          description: "Versão aberta para colocar diretamente no Moodle, sem harmónio e sem iframe.",
+          html: `<div
+  style="max-width: 1100px; margin: 0 auto 24px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <div
+    style="position: relative; overflow: hidden; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+    <div
+      style="position: relative; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 34px 30px;">
+      <div>
+        <h3
+          style="margin: 0; color: #1e3a8a; font-size: 30px; line-height: 1.12; font-weight: 900;">
+          Laboratório SQL</h3>
+        <p
+          style="margin: 12px 0 0; max-width: 760px; color: #374151; font-size: 15px; line-height: 1.6;">
+          Resolver desafios de programação por etapas, testar ideias, explicar o
+          raciocínio e melhorar a solução com o contributo dos colegas.</p>
+      </div>
+      <div
+        style="display: grid; place-items: center; width: 76px; min-width: 76px; height: 76px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; color: #1e3a8a; font-size: 36px; font-weight: 900;">
+        LC</div>
+    </div>
+    <div
+      style="position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);">
+       </div>
+  </div>
+  <div
+    style="margin-top: 14px; padding: 18px 20px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+    <p style="margin: 0 0 12px; line-height: 1.6;">Este laboratório funciona
+      como um percurso de prática orientada, com pequenos desafios organizados
+      por etapas.</p>
+    <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+      <li>Lê o desafio com atenção.</li>
+      <li>Resolve passo a passo, sem saltar diretamente para a resposta final.
+      </li>
+      <li>Testa a solução com exemplos simples.</li>
+      <li>Comenta o raciocínio usado e compara ideias com os colegas.</li>
+      <li>Melhora a solução antes de avançar para o desafio seguinte.</li>
+    </ul>
+  </div>
+</div>`
+        },
+        {
+          title: "Laboratório SQL - Sala 1",
+          description: "Bloco HTML para colocar no tópico Entrada no laboratório.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <div style="position: relative; padding: 18px 20px 18px 26px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-size: 15px;">
+    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: linear-gradient(180deg, #F97316, #3B6FD8);"></div>
+    <h3 style="margin: 0 0 10px; color: #1e3a8a; font-size: 24px; line-height: 1.18; font-weight: 900;">Entrada no laboratório</h3>
+    <p style="margin: 0 0 10px; line-height: 1.6;">Criar uma sequência em pseudocódigo que peça o nome e o ano de nascimento, calcule a idade aproximada e apresente uma mensagem personalizada.</p>
+    <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+      <li>Identificar os dados de entrada.</li>
+      <li>Calcular a idade a partir do ano atual.</li>
+      <li>Apresentar uma mensagem final com nome e idade.</li>
+      <li>Testar com pelo menos dois exemplos.</li>
+    </ul>
+    <p style="margin: 14px 0 0;"><a style="display: inline-block; padding: 9px 12px; border-radius: 8px; color: #FFFFFF; background: #1e3a8a; font-weight: 900; text-decoration: none;" href="https://fad.iefp.pt/mod/forum/discuss.php?d=52409" target="_blank" rel="noopener">Abrir Sala 1</a></p>
+  </div>
+</div>`
+        },
+        {
+          title: "Laboratório SQL - Sala 2",
+          description: "Bloco HTML para colocar no tópico Primeira decisão.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <div style="position: relative; padding: 18px 20px 18px 26px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-size: 15px;">
+    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: linear-gradient(180deg, #F97316, #3B6FD8);"></div>
+    <h3 style="margin: 0 0 10px; color: #1e3a8a; font-size: 24px; line-height: 1.18; font-weight: 900;">Primeira decisão</h3>
+    <p style="margin: 0 0 10px; line-height: 1.6;">Construir uma solução que leia a idade de uma pessoa e indique se pode votar.</p>
+    <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+      <li>Usar uma condição clara.</li>
+      <li>Definir a idade mínima para votar.</li>
+      <li>Mostrar uma mensagem para cada resultado possível.</li>
+      <li>Testar com uma idade abaixo e uma idade acima do limite.</li>
+    </ul>
+    <p style="margin: 14px 0 0;"><a style="display: inline-block; padding: 9px 12px; border-radius: 8px; color: #FFFFFF; background: #1e3a8a; font-weight: 900; text-decoration: none;" href="https://fad.iefp.pt/mod/forum/discuss.php?d=52408" target="_blank" rel="noopener">Abrir Sala 2</a></p>
+  </div>
+</div>`
+        },
+        {
+          title: "Laboratório SQL - Sala 3",
+          description: "Bloco HTML para colocar no tópico Média em análise.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <div style="position: relative; padding: 18px 20px 18px 26px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-size: 15px;">
+    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: linear-gradient(180deg, #F97316, #3B6FD8);"></div>
+    <h3 style="margin: 0 0 10px; color: #1e3a8a; font-size: 24px; line-height: 1.18; font-weight: 900;">Média em análise</h3>
+    <p style="margin: 0 0 10px; line-height: 1.6;">Ler três notas, calcular a média e indicar se o resultado é suficiente ou precisa de melhorar.</p>
+    <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+      <li>Ler três valores numéricos.</li>
+      <li>Calcular corretamente a média.</li>
+      <li>Usar uma decisão para classificar o resultado.</li>
+      <li>Apresentar a média final e a mensagem correspondente.</li>
+    </ul>
+    <p style="margin: 14px 0 0;"><a style="display: inline-block; padding: 9px 12px; border-radius: 8px; color: #FFFFFF; background: #1e3a8a; font-weight: 900; text-decoration: none;" href="https://fad.iefp.pt/mod/forum/discuss.php?d=52407" target="_blank" rel="noopener">Abrir Sala 3</a></p>
+  </div>
+</div>`
+        },
+        {
+          title: "Laboratório SQL - Sala 4",
+          description: "Bloco HTML para colocar no tópico Repetir com controlo.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <div style="position: relative; padding: 18px 20px 18px 26px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-size: 15px;">
+    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: linear-gradient(180deg, #F97316, #3B6FD8);"></div>
+    <h3 style="margin: 0 0 10px; color: #1e3a8a; font-size: 24px; line-height: 1.18; font-weight: 900;">Repetir com controlo</h3>
+    <p style="margin: 0 0 10px; line-height: 1.6;">Criar uma solução que leia cinco números e conte quantos são positivos, negativos ou iguais a zero.</p>
+    <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+      <li>Usar uma repetição para ler os cinco números.</li>
+      <li>Usar contadores para cada categoria.</li>
+      <li>Classificar cada número lido.</li>
+      <li>Apresentar o total de positivos, negativos e zeros.</li>
+    </ul>
+    <p style="margin: 14px 0 0;"><a style="display: inline-block; padding: 9px 12px; border-radius: 8px; color: #FFFFFF; background: #1e3a8a; font-weight: 900; text-decoration: none;" href="https://fad.iefp.pt/mod/forum/discuss.php?d=52406" target="_blank" rel="noopener">Abrir Sala 4</a></p>
+  </div>
+</div>`
+        },
+        {
+          title: "Laboratório SQL - Sala 5",
+          description: "Bloco HTML para colocar no tópico Organizar a solução.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <div style="position: relative; padding: 18px 20px 18px 26px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-size: 15px;">
+    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: linear-gradient(180deg, #F97316, #3B6FD8);"></div>
+    <h3 style="margin: 0 0 10px; color: #1e3a8a; font-size: 24px; line-height: 1.18; font-weight: 900;">Organizar a solução</h3>
+    <p style="margin: 0 0 10px; line-height: 1.6;">Planear uma solução para registar várias notas, calcular a média geral e identificar a nota mais alta.</p>
+    <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+      <li>Definir que dados precisam de ser guardados.</li>
+      <li>Usar repetição para tratar várias notas.</li>
+      <li>Calcular a média geral.</li>
+      <li>Indicar a maior nota encontrada.</li>
+    </ul>
+    <p style="margin: 14px 0 0;"><a style="display: inline-block; padding: 9px 12px; border-radius: 8px; color: #FFFFFF; background: #1e3a8a; font-weight: 900; text-decoration: none;" href="https://fad.iefp.pt/mod/forum/discuss.php?d=52405" target="_blank" rel="noopener">Abrir Sala 5</a></p>
+  </div>
+</div>`
+        },
+        {
+          title: "Laboratório SQL - Sala 6",
+          description: "Bloco HTML para colocar no tópico Projeto final.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <div style="position: relative; padding: 18px 20px 18px 26px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-size: 15px;">
+    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: linear-gradient(180deg, #F97316, #3B6FD8);"></div>
+    <h3 style="margin: 0 0 10px; color: #1e3a8a; font-size: 24px; line-height: 1.18; font-weight: 900;">Projeto final</h3>
+    <p style="margin: 0 0 10px; line-height: 1.6;">Construir uma proposta de mini programa que resolva um problema simples ligado ao contexto da formação, usando entrada, processamento, decisão e repetição.</p>
+    <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+      <li>Definir o problema e o objetivo do programa.</li>
+      <li>Indicar entradas, processamento e saídas.</li>
+      <li>Usar pelo menos uma decisão e uma repetição.</li>
+      <li>Preparar uma apresentação oral curta da solução final.</li>
+    </ul>
+    <p style="margin: 14px 0 0;"><a style="display: inline-block; padding: 9px 12px; border-radius: 8px; color: #FFFFFF; background: #1e3a8a; font-weight: 900; text-decoration: none;" href="https://fad.iefp.pt/mod/forum/discuss.php?d=52404" target="_blank" rel="noopener">Abrir Sala 6</a></p>
+  </div>
+</div>`
+        },
+
+        {
+          title: "Da lógica à prática",
+          description: "Cartão simples para a tarefa individual de fecho da UFCD.",
+          html: `<div style="margin: 0 0 24px; padding: 30px 24px; border: 1px solid #D7E3F8; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #1F2A44;">
+  <p style="margin: 0 0 18px; font-size: 16px; line-height: 1.65;">Escreve uma breve reflexão sobre o que aprendeste nesta UFCD e em que situações achas que estes conhecimentos te podem ser úteis.</p>
+
+  <ol style="margin: 0; padding-left: 22px; font-size: 15px; line-height: 1.7;">
+    <li>Refere os principais conceitos de programação que passaste a compreender melhor.</li>
+    <li>Explica como esses conceitos te ajudam a pensar ou resolver problemas de forma mais organizada.</li>
+    <li>Indica em que situações pessoais, profissionais ou de estudo poderás aplicar estes conhecimentos.</li>
+    <li>Escreve um pequeno texto individual, com cerca de 6 a 10 linhas.</li>
+  </ol>
+</div>`
+        },
+        {
+          title: "Cabeçalho de recurso",
+          description: "Para abrir uma página, etiqueta, livro ou recurso com o mesmo estilo visual da UFCD.",
+          html: `<div style="max-width: 900px; margin: 0 auto 24px; border: 1px solid #D7E3F8; border-radius: 8px; overflow: hidden; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+  <div style="padding: 28px 26px; background: #FFFFFF; color: #374151;">
+    <h2 style="margin: 0; color: #1E3A8A; font-size: 30px; line-height: 1.15;">Título do recurso ou atividade</h2>
+    <p style="margin: 14px 0 0; color: #374151; font-size: 16px; line-height: 1.6;">Escreve aqui uma breve introdução ao tema, explicando ao formando o que vai aprender ou realizar.</p>
+  </div>
+  <div style="height: 7px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+</div>`
+        },
+        {
+          title: "Objetivos de aprendizagem",
+          description: "Para indicar de forma clara o que a pessoa deve conseguir fazer no final.",
+          html: `<div style="max-width: 900px; margin: 0 auto 24px; padding: 24px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+  <h3 style="margin: 0 0 16px; color: #1E3A8A; font-size: 24px; line-height: 1.2;">No final desta atividade, deves ser capaz de:</h3>
+  <div style="display: block;">
+    <p style="margin: 0 0 10px; padding: 12px 14px; border: 1px solid #D7E3F8; border-left: 5px solid #3B6FD8; border-radius: 8px; background: #FFFFFF;">1. Identificar os conceitos principais associados ao tema.</p>
+    <p style="margin: 0 0 10px; padding: 12px 14px; border: 1px solid #D7E3F8; border-left: 5px solid #3B6FD8; border-radius: 8px; background: #FFFFFF;">2. Aplicar os conceitos numa situação prática simples.</p>
+    <p style="margin: 0; padding: 12px 14px; border: 1px solid #D7E3F8; border-left: 5px solid #3B6FD8; border-radius: 8px; background: #FFFFFF;">3. Explicar a solução usando linguagem clara e organizada.</p>
+  </div>
+  <div style="height: 7px; margin: 18px -24px -24px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+</div>`
+        },
+        {
+          title: "Atividade individual",
+          description: "Para tarefas de consolidação, fichas práticas ou pequenas entregas individuais.",
+          html: `<div style="max-width: 900px; margin: 0 auto 24px; padding: 24px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+  <h3 style="margin: 0 0 12px; color: #1E3A8A; font-size: 24px; line-height: 1.2;">Título da tarefa</h3>
+  <p style="margin: 0 0 16px; line-height: 1.6;">Lê o enunciado com atenção e resolve a tarefa de forma autónoma. O objetivo é consolidares o conteúdo trabalhado na sessão.</p>
+  <div style="padding: 16px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF;">
+    <strong style="display: block; margin-bottom: 8px; color: #1E3A8A;">O que deves entregar:</strong>
+    <p style="margin: 0; line-height: 1.6;">Indica aqui o ficheiro, texto, resposta ou evidência que deve ser entregue no Moodle.</p>
+  </div>
+  <div style="height: 7px; margin: 18px -24px -24px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+</div>`
+        },
+        {
+          title: "Atividade de grupo",
+          description: "Para trabalho colaborativo, discussão, brainstorming ou resolução em equipa.",
+          html: `<div style="max-width: 900px; margin: 0 auto 24px; padding: 24px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+  <h3 style="margin: 0 0 12px; color: #1E3A8A; font-size: 24px; line-height: 1.2;">Título da atividade</h3>
+  <p style="margin: 0 0 18px; color: #374151; line-height: 1.6;">Em grupo, discutam o problema apresentado e construam uma resposta comum. Registem as principais ideias antes de apresentar a solução.</p>
+  <div style="display: block;">
+    <p style="margin: 0 0 10px; padding: 12px 14px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; color: #374151;">1. Distribuam tarefas entre os elementos do grupo.</p>
+    <p style="margin: 0 0 10px; padding: 12px 14px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; color: #374151;">2. Construam uma solução simples e justificada.</p>
+    <p style="margin: 0; padding: 12px 14px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; color: #374151;">3. Preparem uma breve partilha com a turma.</p>
+  </div>
+  <div style="height: 7px; margin: 18px -24px -24px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+</div>`
+        },
+        {
+          title: "Caixa de dica ou atenção",
+          description: "Para destacar uma regra, aviso, sugestão ou ponto importante.",
+          html: `<div style="max-width: 900px; margin: 0 auto 24px; padding: 18px 20px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+  <strong style="display: block; margin-bottom: 6px; color: #1E3A8A; font-size: 17px;">Atenção</strong>
+  <p style="margin: 0; line-height: 1.6;">Usa esta caixa para chamar a atenção para uma instrução importante, um erro comum ou uma dica útil antes da realização da tarefa.</p>
+  <div style="height: 7px; margin: 18px -20px -18px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+</div>`
+        },
+        {
+          title: "Passos de realização",
+          description: "Para orientar a atividade com uma sequência curta e fácil de seguir.",
+          html: `<div style="max-width: 900px; margin: 0 auto 24px; padding: 24px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+  <h3 style="margin: 0 0 16px; color: #1E3A8A; font-size: 24px; line-height: 1.2;">Como realizar a atividade</h3>
+  <div style="display: block;">
+    <div style="margin-bottom: 12px; padding: 14px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF;">
+      <strong style="display: block; color: #1E3A8A;">1. Ler o enunciado</strong>
+      <p style="margin: 6px 0 0;">Compreende primeiro o problema antes de começares a responder.</p>
+    </div>
+    <div style="margin-bottom: 12px; padding: 14px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF;">
+      <strong style="display: block; color: #1E3A8A;">2. Construir a solução</strong>
+      <p style="margin: 6px 0 0;">Organiza a resposta por etapas, usando lógica clara.</p>
+    </div>
+    <div style="padding: 14px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF;">
+      <strong style="display: block; color: #1E3A8A;">3. Rever antes de entregar</strong>
+      <p style="margin: 6px 0 0;">Confirma se respondeste ao que era pedido.</p>
+    </div>
+  </div>
+  <div style="height: 7px; margin: 18px -24px -24px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+</div>`
+        },
+        {
+          title: "Critérios de avaliação",
+          description: "Para deixar claro como uma tarefa será observada ou avaliada.",
+          html: `<div style="max-width: 900px; margin: 0 auto 24px; padding: 24px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+  <h3 style="margin: 0 0 16px; color: #1E3A8A; font-size: 24px; line-height: 1.2;">Critérios da tarefa</h3>
+  <div style="display: block;">
+    <p style="margin: 0 0 10px; padding: 12px 14px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF;"><strong style="color: #1E3A8A;">Compreensão do problema:</strong> identifica corretamente o que é pedido.</p>
+    <p style="margin: 0 0 10px; padding: 12px 14px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF;"><strong style="color: #1E3A8A;">Aplicação dos conceitos:</strong> usa os conteúdos trabalhados na sessão.</p>
+    <p style="margin: 0; padding: 12px 14px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF;"><strong style="color: #1E3A8A;">Clareza da resposta:</strong> apresenta a solução de forma organizada.</p>
+  </div>
+  <div style="height: 7px; margin: 18px -24px -24px; background: linear-gradient(90deg, #F97316, #3B6FD8, #1E3A8A);"></div>
+</div>`
+        }
+      ];
+
+      function escapeHtml(value) {
+        return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      }
+
+      function renderTemplates() {
+        const root = document.getElementById("templates");
+        root.innerHTML = templates.map((template, index) => `
+          <article class="template-card">
+            <div class="template-head">
+              <div>
+                <h2>${index + 1}. ${template.title}</h2>
+                <p>${template.description}</p>
+              </div>
+              <button class="copy-button" type="button" data-copy="${index}">Copiar HTML</button>
+            </div>
+            <div class="template-body">
+              <div class="preview" aria-label="Pré-visualização">${template.html}</div>
+              <div class="code-panel">
+                <textarea spellcheck="false" aria-label="Código HTML do modelo ${template.title}">${escapeHtml(template.html)}</textarea>
+              </div>
+            </div>
+          </article>
+        `).join("");
+      }
+
+      async function copyTemplate(index, button) {
+        const html = templates[index].html;
+        try {
+          await navigator.clipboard.writeText(html);
+          button.textContent = "Copiado";
+          setTimeout(() => {
+            button.textContent = "Copiar HTML";
+          }, 1600);
+        } catch (error) {
+          const textarea = button.closest(".template-card").querySelector("textarea");
+          textarea.focus();
+          textarea.select();
+          button.textContent = "Selecionado";
+        }
+      }
+
+      renderTemplates();
+
+      document.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-copy]");
+        if (!button) return;
+        copyTemplate(Number(button.dataset.copy), button);
+      });
+    </script>
+    <script src="assets/nav-fallback.js?v=20260601"></script>
+  </body>
+</html>
+

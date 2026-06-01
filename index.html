@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UFCD 10788 | Fundamentos da linguagem SQL</title>
+    <meta name="description" content="Site educativo de apoio à UFCD 10788 - Fundamentos da linguagem SQL.">
+    <link rel="preload" as="image" href="assets/img/optimized/tipos-de-dados-bg.webp">
+    <link rel="stylesheet" href="assets/styles.css">
+  </head>
+  <body data-page="home">
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <aside class="sidebar" aria-label="Menu principal">
+      <a class="brand" href="index.html#inicio" aria-label="Ir para início">
+        <span class="brand-mark">10788</span>
+        <span>
+          <strong>Fundamentos da linguagem SQL</strong>
+        </span>
+      </a>
+
+      <nav class="side-nav">
+        <a href="index.html#inicio">Início</a>
+        <a href="index.html#objetivos">Objetivos</a>
+        <a href="index.html#metodologia">Metodologia</a>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-conteudos">
+          Conteúdos
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu" id="submenu-conteudos">
+          <a href="conteudos/introducao-bases-dados.html">Introdução a bases de dados</a>
+          <a href="conteudos/ambientes-bases-dados.html">Ambientes de bases de dados</a>
+          <a href="conteudos/terminologia-relacional.html">Terminologia de bases de dados relacionais</a>
+          <a href="conteudos/planeamento-desenho.html">Planeamento e desenho de bases de dados</a>
+          <a href="conteudos/introducao-sql.html">Introdução ao SQL</a>
+          <a href="conteudos/criacao-bases-dados.html">Criação de bases de dados</a>
+          <a href="conteudos/tabelas-integridade.html">Tabelas e integridade de dados</a>
+          <a href="conteudos/fundamentos-transact-sql.html">Fundamentos de Transact-SQL</a>
+          <a href="conteudos/filtragem-ordenacao.html">Filtragem e ordenação de dados</a>
+        </div>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-atividades">
+          Atividades
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu activity-submenu" id="submenu-atividades">
+          <a href="atividades/controlo-teams.html">Partilha de ecrã</a>
+          <a href="atividades/brainstorming.html">Brainstorming</a>
+          <a href="atividades/tarefas-individuais.html">Tarefas individuais</a>
+          <div class="submenu-children">
+            <a href="atividades/acompanhamento-ti.html">Acompanhamento TI</a>
+          </div>
+          <a href="atividades/tarefas-grupo.html">Tarefas de grupo</a>
+          <div class="submenu-children">
+            <a href="atividades/acompanhamento-tg.html">Acompanhamento TG</a>
+          </div>
+          <a href="atividades/laboratorio-sql.html">Laboratório SQL</a>
+          <div class="submenu-children">
+            <a href="atividades/programa-final.html">Projeto final</a>
+            <a href="atividades/galeria-projetos.html">Galeria</a>
+          </div>
+        </div>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-avaliacao">
+          Avaliação
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu evaluation-submenu" id="submenu-avaliacao">
+          <a href="avaliacao/avaliacao-diagnostica.html">Diagnóstica</a>
+          <div class="submenu-children">
+            <a href="avaliacao/resultados-diagnostica.html">Resultados</a>
+          </div>
+          <a href="avaliacao/avaliacao-sumativa.html">Sumativa</a>
+          <a href="avaliacao/autoavaliacao-final.html">Autoavaliação</a>
+          <a href="avaliacao/avaliacao-entre-pares.html">Entre pares</a>
+          <a href="avaliacao/avaliacao-formacao.html">Formação</a>
+        </div>
+        <button class="nav-parent" type="button" aria-expanded="false" aria-controls="submenu-recursos">
+          Recursos
+          <span aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="submenu resource-submenu" id="submenu-recursos">
+          <a href="recursos/manual.html">Manual para download</a>
+          <a href="recursos/assistente-gpt.html">Assistente UFCD 10788</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="page-shell">
+      <section class="hero home-hero" id="inicio" aria-label="Apresentação da UFCD">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <h1>Fundamentos da linguagem SQL</h1>
+          <p>Uma introdução prática às bases de dados relacionais e aos fundamentos da linguagem SQL. Consultar, estruturar e gerir dados passo a passo.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#conteudos">Ver conteúdos</a>
+            <a class="button secondary" href="#avaliacao">Avaliação</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="objetivos">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Objetivos da formação</p>
+            <h2>Identificar, consultar e gerir dados com SQL</h2>
+          </div>
+          <div class="objective-grid">
+            <article class="card objective-card">
+              <span class="objective-number">1</span>
+              <p>Identificar bases de dados relacionais.</p>
+            </article>
+            <article class="card objective-card">
+              <span class="objective-number">2</span>
+              <p>Consultar dados armazenados dentro da base de dados.</p>
+            </article>
+            <article class="card objective-card">
+              <span class="objective-number">3</span>
+              <p>Criar tabelas, inserir, alterar e apagar dados.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section tint" id="metodologia">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Metodologia</p>
+            <h2>Explicar, demonstrar e praticar</h2>
+          </div>
+          <div class="feature-row">
+            <div>
+              <p class="lead">A formação combina explicação curta, demonstração orientada e prática acompanhada. Cada novo conceito é aplicado em exercícios progressivos, trabalhos colaborativos e desafios ligados a situações reais.</p>
+              <div class="step-list">
+                <span>1. Conceito curto</span>
+                <span>2. Exemplo guiado</span>
+                <span>3. Exercício progressivo</span>
+                <span>4. Reflexão e melhoria</span>
+              </div>
+            </div>
+            <img src="assets/img/optimized/explicar-demonstrar-praticar-online-bg.webp" alt="Formação online com explicação, demonstração e prática acompanhada">
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="conteudos">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Conteúdos</p>
+            <h2>Percurso de aprendizagem</h2>
+          </div>
+          <div class="content-grid" id="home-content-grid">
+            <a class="card card-link" href="conteudos/introducao-bases-dados.html">
+              <h3>1. Introdução a bases de dados</h3>
+              <p>Compreender o que é uma base de dados, para que serve e como organiza informação.</p>
+            </a>
+            <a class="card card-link" href="conteudos/ambientes-bases-dados.html">
+              <h3>2. Ambientes de bases de dados</h3>
+              <p>Identificar ambientes, ferramentas e sistemas usados para trabalhar com bases de dados.</p>
+            </a>
+            <a class="card card-link" href="conteudos/terminologia-relacional.html">
+              <h3>3. Terminologia de bases de dados relacionais</h3>
+              <p>Reconhecer tabelas, campos, registos, chaves e relações entre dados.</p>
+            </a>
+            <a class="card card-link" href="conteudos/planeamento-desenho.html">
+              <h3>4. Planeamento e desenho de bases de dados</h3>
+              <p>Planear tabelas, campos e relações antes da criação da base de dados.</p>
+            </a>
+            <a class="card card-link" href="conteudos/introducao-sql.html">
+              <h3>5. Introdução ao SQL</h3>
+              <p>Conhecer a linguagem SQL e o seu papel na consulta e gestão de dados.</p>
+            </a>
+            <a class="card card-link" href="conteudos/criacao-bases-dados.html">
+              <h3>6. Criação de bases de dados</h3>
+              <p>Criar estruturas iniciais para guardar dados de forma organizada.</p>
+            </a>
+            <a class="card card-link" href="conteudos/tabelas-integridade.html">
+              <h3>7. Tabelas e integridade de dados</h3>
+              <p>Criar tabelas, definir tipos de dados e respeitar regras de integridade.</p>
+            </a>
+            <a class="card card-link" href="conteudos/fundamentos-transact-sql.html">
+              <h3>8. Fundamentos de Transact-SQL</h3>
+              <p>Aplicar instruções base para criar, inserir, alterar, apagar e consultar dados.</p>
+            </a>
+            <a class="card card-link" href="conteudos/filtragem-ordenacao.html">
+              <h3>9. Filtragem e ordenação de dados</h3>
+              <p>Consultar dados com critérios, filtros e ordenação de resultados.</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section activities-band" id="atividades">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Atividades</p>
+            <h2>Prática orientada</h2>
+          </div>
+          <p class="lead">As atividades foram pensadas para ligar a teoria à prática, permitindo aplicar progressivamente os conteúdos trabalhados ao longo da UFCD.</p>
+          <p class="lead">Cada atividade está associada a um ou mais conteúdos, para que a aprendizagem fique organizada, contextualizada e fácil de acompanhar.</p>
+          <div class="activity-grid">
+            <article class="activity-info-card">
+              <h3>Ligação aos conteúdos</h3>
+              <p>As atividades serão construídas gradualmente à medida que forem sendo trabalhadas e partilhadas nas páginas dos conteúdos da UFCD.</p>
+            </article>
+            <article class="activity-info-card">
+              <h3>Construção gradual</h3>
+              <p>Novas atividades serão acrescentadas apenas quando forem efetivamente planeadas, realizadas ou partilhadas durante a formação.</p>
+            </article>
+            <article class="activity-info-card">
+              <h3>Organização da aprendizagem</h3>
+              <p>Cada atividade ficará ligada ao conteúdo onde foi trabalhada, facilitando a consulta, o acompanhamento e a revisão posterior.</p>
+            </article>
+            <article class="activity-info-card">
+              <h3>Síntese das atividades reais</h3>
+              <p>A secção funcionará como resumo organizado das atividades reais da UFCD, sem criar exemplos artificiais para preencher a interface.</p>
+            </article>
+          </div>
+          <div class="activity-task-grid">
+            <article class="activity-info-card">
+              <h3>Tarefa de grupo</h3>
+              <p>Permite discutir ideias, construir soluções em conjunto, desenvolver competências de colaboração e partilhar diferentes formas de resolver problemas.</p>
+            </article>
+            <article class="activity-info-card">
+              <h3>Tarefa individual</h3>
+              <p>Permite consolidar a aprendizagem, aplicar os conceitos de forma autónoma e produzir evidências individuais do trabalho realizado.</p>
+            </article>
+          </div>
+          <article class="activity-summary">
+            <h3><a href="atividades/brainstorming.html">Brainstorming</a></h3>
+            <p>Atividade inicial com Mentimeter para recolher ideias, expectativas e conhecimentos prévios antes de aprofundar o primeiro tema.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section tint" id="avaliacao">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Avaliação</p>
+            <h2>Avaliação clara e transparente</h2>
+          </div>
+          <p class="lead">Critérios definidos para cada momento do percurso formativo, com evidências de aprendizagem recolhidas ao longo da UFCD.</p>
+
+          <div class="assessment-list">
+            <article class="assessment-row">
+              <div>
+                <h3>Diagnóstica</h3>
+                <strong>Início da formação</strong>
+                <p>Identifica conhecimentos prévios sobre bases de dados relacionais e linguagem SQL.</p>
+                <div class="criteria-tags">
+                  <span>Questionário de conhecimentos prévios</span>
+                </div>
+                <div class="assessment-actions">
+                  <a class="small-button" href="avaliacao/avaliacao-diagnostica.html">Abrir avaliação</a>
+                  <a class="small-button orange" href="avaliacao/resultados-diagnostica.html">Ver resultados</a>
+                </div>
+              </div>
+              <em>Sem nota</em>
+            </article>
+
+            <article class="assessment-row">
+              <div>
+                <h3>Sumativa</h3>
+                <strong>Final da formação</strong>
+                <p>Verifica se o formando identifica bases de dados relacionais, consulta dados e cria, insere, altera e apaga informação.</p>
+                <div class="criteria-tags">
+                  <span>Consulta de dados</span>
+                  <span>Criação e gestão de tabelas</span>
+                  <span>Inserção, alteração e eliminação de dados</span>
+                </div>
+                <div class="assessment-actions">
+                  <a class="small-button" href="avaliacao/avaliacao-sumativa.html">Abrir avaliação</a>
+                </div>
+              </div>
+              <em>40%</em>
+            </article>
+
+            <article class="assessment-row">
+              <div>
+                <h3>Autoavaliação</h3>
+                <strong>Final da formação</strong>
+                <p>Reflexão individual sobre aprendizagens, dificuldades e evolução no trabalho com SQL.</p>
+                <div class="criteria-tags">
+                  <span>Reflexão escrita (10%)</span>
+                  <span>Grelha de autoavaliação</span>
+                </div>
+                <div class="assessment-actions">
+                  <a class="small-button" href="avaliacao/autoavaliacao-final.html">Abrir autoavaliação</a>
+                </div>
+              </div>
+              <em>10%</em>
+            </article>
+
+            <article class="assessment-row">
+              <div>
+                <h3>Entre pares</h3>
+                <strong>Durante ou no final da formação</strong>
+                <p>Apreciação colaborativa do trabalho desenvolvido, com critérios claros e construtivos.</p>
+                <div class="criteria-tags">
+                  <span>Avaliação entre pares</span>
+                  <span>Comentário construtivo</span>
+                  <span>Critérios partilhados</span>
+                </div>
+                <div class="assessment-actions">
+                  <a class="small-button" href="avaliacao/avaliacao-entre-pares.html">Abrir avaliação</a>
+                </div>
+              </div>
+              <em>Colaborativa</em>
+            </article>
+
+            <article class="assessment-row">
+              <div>
+                <h3>Formação</h3>
+                <strong>Final da formação</strong>
+                <p>Recolha de opinião sobre organização, recursos, metodologia e desenvolvimento da formação.</p>
+                <div class="criteria-tags">
+                  <span>Organização</span>
+                  <span>Recursos</span>
+                  <span>Metodologia</span>
+                </div>
+                <div class="assessment-actions">
+                  <a class="small-button" href="avaliacao/avaliacao-formacao.html">Abrir avaliação</a>
+                </div>
+              </div>
+              <em>Feedback</em>
+            </article>
+          </div>
+
+          <div class="section-heading approval-heading">
+            <p class="eyebrow">Critérios de aprovação</p>
+            <h2>Condições para concluir</h2>
+          </div>
+          <div class="approval-grid">
+            <article class="approval-card">
+              <span>1</span>
+              <strong>Nota mínima</strong>
+              <h3>10 valores</h3>
+              <p>Escala de 0 a 20</p>
+            </article>
+            <article class="approval-card">
+              <span>2</span>
+              <strong>Frequência mínima</strong>
+              <h3>90%</h3>
+              <p>Das sessões presenciais</p>
+            </article>
+            <article class="approval-card">
+              <span>3</span>
+              <strong>Entrega de tarefas</strong>
+              <h3>Obrigatório</h3>
+              <p>Todas as tarefas obrigatórias</p>
+            </article>
+            <article class="approval-card">
+              <span>4</span>
+              <strong>Avaliação sumativa</strong>
+              <h3>Mínimo 8</h3>
+              <p>Para ser ponderada na nota</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="recursos">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Recursos</p>
+            <h2>Materiais de apoio</h2>
+          </div>
+          <div class="resource-list">
+            <article class="card" id="recursos-manual">
+              <h3><a href="recursos/manual.html">Manual para download</a></h3>
+              <p>Área preparada para disponibilizar o manual da UFCD quando o ficheiro PDF for acrescentado ao projeto.</p>
+            </article>
+            <article class="card" id="recursos-assistente-gpt">
+              <h3><a href="recursos/assistente-gpt.html">Assistente UFCD 10788</a></h3>
+              <p>Apoio orientado para colocar dúvidas, rever conceitos e pedir ajuda durante o estudo da UFCD.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="floating-actions" aria-label="Ações rápidas">
+      <a href="index.html#inicio" aria-label="Página inicial" title="Página inicial"><span class="float-icon icon-home" aria-hidden="true"></span></a>
+      <button type="button" data-action="top" aria-label="Voltar ao topo" title="Voltar ao topo"><span class="float-icon icon-top" aria-hidden="true"></span></button>
+      <button type="button" data-action="print" aria-label="Imprimir" title="Imprimir"><span class="float-icon icon-print" aria-hidden="true"></span></button>
+    </div>
+
+    <div class="modal-backdrop" hidden>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" type="button" aria-label="Fechar">&times;</button>
+        <h2 id="modal-title"></h2>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <script src="assets/config.js"></script>
+    <script src="assets/app.js?v=20260601-menu-3776-fallback"></script>
+    <script src="assets/nav-fallback.js?v=20260601"></script>
+  </body>
+</html>
+
+
+
+
+
+
+

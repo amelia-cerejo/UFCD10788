@@ -1,0 +1,23 @@
+Teste 1
+Entrada:
+25
+
+Saida esperada:
+Temperatura em Fahrenheit: 77.00
+Classificacao: temperatura amena.
+
+Teste 2
+Entrada:
+5
+
+Saida esperada:
+Temperatura em Fahrenheit: 41.00
+Classificacao: temperatura baixa.
+
+Teste 3
+Entrada:
+35
+
+Saida esperada:
+Temperatura em Fahrenheit: 95.00
+Classificacao: temperatura elevada.

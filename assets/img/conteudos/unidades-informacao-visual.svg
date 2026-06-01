@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Escala de unidades de informação</title>
+  <desc id="desc">Escada visual com as unidades byte, kilobyte, megabyte, gigabyte e terabyte.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#EFF6FF"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#1E3A8A" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <rect x="86" y="76" width="1028" height="568" rx="34" fill="#FFFFFF" stroke="#D7E3F8" stroke-width="3" filter="url(#shadow)"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="140" y="150" fill="#1E3A8A" font-size="28" font-weight="800">Medir dados digitais</text>
+    <text x="140" y="188" fill="#64748B" font-size="20">Quanto maior a unidade, maior a quantidade de informação que pode representar.</text>
+  </g>
+  <g transform="translate(150 250)" font-family="Arial, Helvetica, sans-serif">
+    <rect x="0" y="256" width="150" height="70" rx="16" fill="#EFF6FF" stroke="#D7E3F8"/>
+    <text x="75" y="300" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="800">Byte</text>
+    <rect x="170" y="208" width="150" height="118" rx="16" fill="#DBEAFE" stroke="#D7E3F8"/>
+    <text x="245" y="274" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="800">KB</text>
+    <rect x="340" y="158" width="150" height="168" rx="16" fill="#BFDBFE" stroke="#D7E3F8"/>
+    <text x="415" y="250" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="800">MB</text>
+    <rect x="510" y="96" width="150" height="230" rx="16" fill="#93C5FD" stroke="#D7E3F8"/>
+    <text x="585" y="224" text-anchor="middle" fill="#1E3A8A" font-size="24" font-weight="800">GB</text>
+    <rect x="680" y="28" width="150" height="298" rx="16" fill="#3B6FD8"/>
+    <text x="755" y="194" text-anchor="middle" fill="#FFFFFF" font-size="24" font-weight="800">TB</text>
+    <path d="M0 358 H830" stroke="#F97316" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(172 574)" font-family="Arial, Helvetica, sans-serif" font-size="18">
+    <text x="0" y="0" fill="#64748B">texto pequeno</text>
+    <text x="250" y="0" fill="#64748B">documentos e imagens</text>
+    <text x="560" y="0" fill="#64748B">vídeo, aplicações e cópias de segurança</text>
+  </g>
+</svg>
