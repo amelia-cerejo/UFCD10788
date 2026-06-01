@@ -631,8 +631,39 @@ const activities = [
     title: "Brainstorming",
     intro: "Atividade inicial para recolher ideias, expectativas e conhecimentos prévios sobre bases de dados e SQL.",
     url: "atividades/brainstorming.html",
-    externalUrl: window.UFCD10788_MENTIMETER_URL || "",
-    participationUrl: window.UFCD10788_MENTIMETER_URL || ""
+    focus: "Exploração inicial",
+    duration: "30 a 45 minutos",
+    product: "Mapa inicial com expectativas, dúvidas e conhecimentos prévios sobre bases de dados relacionais e SQL.",
+    mentimeterUrl: "https://www.mentimeter.com/app/presentation/ali3ffk2adrjzqippagk3pyzwa65n5yf/embed",
+    participationUrl: window.UFCD10788_MENTIMETER_URL || "https://www.menti.com/al95wxrtv7a9",
+    qrCode: "assets/img/mentimeter_qr_code.png",
+    steps: [
+      {
+        title: "Apresentação da UFCD",
+        text: "Identificar o objetivo, a duração e a organização geral da formação."
+      },
+      {
+        title: "Expectativas dos formandos",
+        text: "Recolher ideias sobre o que cada pessoa espera aprender ou melhorar."
+      },
+      {
+        title: "Conhecimentos prévios",
+        text: "Perceber experiências anteriores com bases de dados, tabelas, folhas de cálculo ou SQL."
+      },
+      {
+        title: "Mapa inicial de temas",
+        text: "Organizar contributos em torno de tabelas, campos, registos, consultas e gestão de dados."
+      },
+      {
+        title: "Síntese e próximos passos",
+        text: "Registar conclusões iniciais e preparar a passagem para os primeiros conteúdos."
+      }
+    ],
+    evidence: [
+      "Lista de ideias recolhidas",
+      "Dúvidas iniciais identificadas",
+      "Temas que exigem maior acompanhamento"
+    ]
   },
   {
     id: "tarefas-individuais",
@@ -660,6 +691,100 @@ const activities = [
     children: [
       { id: "programa-final", title: "Projeto final", intro: "Área preparada para orientar o projeto final da UFCD.", url: "atividades/programa-final.html" },
       { id: "galeria-projetos", title: "Galeria", intro: "Espaço preparado para publicar e consultar os projetos finais.", url: "atividades/galeria-projetos.html" }
+    ]
+  }
+];
+
+const groupTasks = [
+  {
+    topic: "Vocabulário inicial de bases de dados",
+    intro: "Construir um glossário colaborativo com conceitos essenciais para começar a trabalhar SQL.",
+    words: [
+      ["Base de dados", "Organização de informação"],
+      ["Tabela", "Estrutura principal"],
+      ["Campo", "Coluna da tabela"],
+      ["Registo", "Linha da tabela"],
+      ["Chave primária", "Identificação única"]
+    ]
+  },
+  {
+    topic: "Planeamento de tabelas",
+    intro: "Identificar entidades, atributos e relações antes de criar a base de dados.",
+    words: [
+      ["Entidade", "Elemento sobre o qual guardamos dados"],
+      ["Atributo", "Característica da entidade"],
+      ["Relação", "Ligação entre tabelas"],
+      ["Integridade", "Regras para dados coerentes"],
+      ["Normalização", "Organização sem repetição desnecessária"]
+    ]
+  },
+  {
+    topic: "Comandos SQL fundamentais",
+    intro: "Reunir comandos usados para criar, consultar e manipular dados.",
+    words: [
+      ["SELECT", "Consultar dados"],
+      ["CREATE TABLE", "Criar tabelas"],
+      ["INSERT", "Inserir registos"],
+      ["UPDATE", "Alterar registos"],
+      ["DELETE", "Eliminar registos"]
+    ]
+  },
+  {
+    topic: "Filtragem e ordenação",
+    intro: "Explorar formas de encontrar dados específicos e apresentar resultados organizados.",
+    words: [
+      ["WHERE", "Filtrar resultados"],
+      ["ORDER BY", "Ordenar resultados"],
+      ["AND", "Combinar condições"],
+      ["OR", "Alternativas de condição"],
+      ["LIKE", "Procurar padrões de texto"]
+    ]
+  }
+];
+
+const individualTasks = [
+  {
+    title: "Identificar uma base de dados",
+    topic: "Introdução a bases de dados",
+    intro: "Escolher uma situação real e explicar que dados poderiam ser guardados.",
+    prompts: [
+      "Indica o contexto escolhido.",
+      "Identifica pelo menos uma tabela possível.",
+      "Propõe três campos adequados para essa tabela.",
+      "Explica para que serviria consultar esses dados."
+    ]
+  },
+  {
+    title: "Desenhar uma tabela",
+    topic: "Tabelas, campos e registos",
+    intro: "Transformar uma situação simples numa estrutura de tabela.",
+    prompts: [
+      "Dá um nome claro à tabela.",
+      "Lista os campos necessários.",
+      "Identifica qual poderia ser a chave primária.",
+      "Escreve dois exemplos de registos."
+    ]
+  },
+  {
+    title: "Criar uma consulta SELECT",
+    topic: "Introdução ao SQL",
+    intro: "Escrever consultas simples para obter dados de uma tabela.",
+    prompts: [
+      "Define o nome da tabela a consultar.",
+      "Escolhe os campos a apresentar.",
+      "Escreve uma consulta SELECT simples.",
+      "Explica por palavras tuas o resultado esperado."
+    ]
+  },
+  {
+    title: "Filtrar e ordenar resultados",
+    topic: "Filtragem e ordenação de dados",
+    intro: "Aplicar condições e ordenação numa consulta SQL.",
+    prompts: [
+      "Escolhe uma condição usando WHERE.",
+      "Ordena os resultados com ORDER BY.",
+      "Explica porque escolheste esse filtro.",
+      "Indica uma situação em que esta consulta seria útil."
     ]
   }
 ];
@@ -2206,7 +2331,14 @@ modalContent.labProposalReview = {
 };
 
 function getBasePath() {
-  return document.body.dataset.depth === "sub" ? "../" : "";
+  const path = window.location.pathname;
+  return document.body.dataset.depth === "sub"
+    || path.includes("/conteudos/")
+    || path.includes("/atividades/")
+    || path.includes("/avaliacao/")
+    || path.includes("/recursos/")
+    ? "../"
+    : "";
 }
 
 function navegarParaDestinoMenu(targetHref) {
@@ -2586,11 +2718,15 @@ function setupModal() {
 
     title.textContent = content.title;
     body.innerHTML = content.body;
+    backdrop.classList.toggle("qr-modal-backdrop", trigger.dataset.modal === "mentimeterQr");
     backdrop.hidden = false;
   });
 
   function hideModal() {
-    if (backdrop) backdrop.hidden = true;
+    if (backdrop) {
+      backdrop.hidden = true;
+      backdrop.classList.remove("qr-modal-backdrop");
+    }
   }
 
   close?.addEventListener("click", hideModal);
@@ -4131,6 +4267,96 @@ function renderActivityPage() {
       </section>
     `;
     applyVisibilityControls(root);
+    return;
+  }
+
+  if (activity.id === "brainstorming") {
+    if (activity.qrCode) {
+      modalContent.mentimeterQr = {
+        title: "Participar no brainstorming",
+        body: `
+          <div class="qr-modal">
+            <p>Usa o QR Code para aceder à atividade no telemóvel.</p>
+            <img src="${getBasePath()}${activity.qrCode}" alt="QR Code para participar no Mentimeter">
+            <a class="small-button orange" href="${activity.participationUrl}" target="_blank" rel="noopener">Abrir ligação de participação</a>
+          </div>
+        `
+      };
+    }
+
+    root.innerHTML = `
+      <section class="section task-page-section">
+        <div class="section-inner">
+          <div class="section-heading task-page-heading">
+            <p class="eyebrow">Atividades</p>
+            <h1>${activity.title}</h1>
+            <p class="lead">${activity.intro}</p>
+          </div>
+
+          <div class="activity-meta-grid">
+            <article class="card activity-meta-card">
+              <p class="eyebrow">Foco</p>
+              <h3>${activity.focus}</h3>
+            </article>
+            <article class="card activity-meta-card">
+              <p class="eyebrow">Duração</p>
+              <h3>${activity.duration}</h3>
+            </article>
+          </div>
+
+          <details class="card group-task-card task-details-card">
+            <summary>
+              <span>
+                <h3>Etapas da atividade</h3>
+                <p>Consulta a sequência proposta para esta atividade inicial.</p>
+              </span>
+              <span class="accordion-icon" aria-hidden="true"></span>
+            </summary>
+            <ol class="agenda-list">
+              ${activity.steps.map((step) => `
+                <li><strong>${step.title}</strong><span>${step.text}</span></li>
+              `).join("")}
+            </ol>
+          </details>
+
+          <div class="activity-output-grid">
+            <article class="card activity-card">
+              <p class="eyebrow">Produto esperado</p>
+              <h3>Resultado da atividade</h3>
+              <p>${activity.product}</p>
+            </article>
+
+            <article class="card activity-card">
+              <p class="eyebrow">Evidências</p>
+              <h3>Registos a guardar</h3>
+              <ul class="clean-list">
+                ${activity.evidence.map((item) => `<li>${item}</li>`).join("")}
+              </ul>
+            </article>
+          </div>
+
+          <section class="embedded-page-shell mentimeter-embed-block" aria-label="Mentimeter - ${activity.title}">
+            ${activity.mentimeterUrl ? `
+              <div class="mentimeter-frame-wrap">
+                <iframe
+                  class="mentimeter-frame"
+                  sandbox="allow-popups allow-scripts allow-same-origin allow-presentation"
+                  allowfullscreen="true"
+                  allowtransparency="true"
+                  frameborder="0"
+                  src="${activity.mentimeterUrl}"
+                  title="Mentimeter - Brainstorming UFCD 10788"></iframe>
+              </div>
+            ` : ""}
+            <div class="embed-fallback">
+              ${activity.mentimeterUrl ? `<a class="small-button" href="${activity.mentimeterUrl}" target="_blank" rel="noopener">Abrir apresentação</a>` : ""}
+              ${activity.participationUrl ? `<a class="small-button orange" href="${activity.participationUrl}" target="_blank" rel="noopener">Participar</a>` : ""}
+              ${activity.qrCode ? `<button class="small-button" type="button" data-modal="mentimeterQr">Mostrar QR Code</button>` : ""}
+            </div>
+          </section>
+        </div>
+      </section>
+    `;
     return;
   }
 
