@@ -191,6 +191,7 @@ let pendingSiteVisibilityItems = null;
 let pendingSiteVisibilityMap = null;
 
 const SITE_VISIBILITY_STORAGE_KEY = "ufcd10788-site-visibility-v1";
+const MENU_TARGET_STORAGE_KEY = "ufcd10788-menu-target-v1";
 let siteVisibilityChannel = null;
 let siteVisibilityRemoteLoaded = false;
 let siteVisibilityRemoteLoading = null;
@@ -264,7 +265,6 @@ async function carregarVisibilidadeRemotaDoSite() {
     .then((dados) => {
       if (dados?.sucesso && Array.isArray(dados.itens)) {
         aplicarItensVisibilidadeSite(dados.itens);
-        disponibilizarTodosItensDoSite();
         guardarVisibilidadeDoSite();
         siteVisibilityRemoteLoaded = true;
         return true;
@@ -275,7 +275,6 @@ async function carregarVisibilidadeRemotaDoSite() {
         } else {
           aplicarMapaVisibilidadeSite(dados.visibilidade);
         }
-        disponibilizarTodosItensDoSite();
         guardarVisibilidadeDoSite();
         siteVisibilityRemoteLoaded = true;
         return true;
@@ -478,21 +477,16 @@ function juntarItensVisibilidadeComConstituicao(items) {
 
   constituicao.forEach((item) => {
     const existente = existentes[item.chave] || existentes[aliases[item.chave]];
+    const secaoExistente = existentes[`secao-${item.secao.replace(/_/g, "-")}`];
+    const defaultVisivel = item.nivel !== "secao" && secaoExistente
+      ? normalizarBooleanVisibilidade(secaoExistente.visivel, item.visivel)
+      : item.visivel;
     usados.add(item.chave);
     output.push({
       ...item,
-      visivel: existente ? normalizarBooleanVisibilidade(existente.visivel, item.visivel) : normalizarBooleanVisibilidade(item.visivel, true),
+      visivel: existente ? normalizarBooleanVisibilidade(existente.visivel, item.visivel) : normalizarBooleanVisibilidade(defaultVisivel, true),
       data_atualizacao: existente?.data_atualizacao || item.data_atualizacao || ""
     });
-  });
-
-  (items || []).forEach((item) => {
-    if (item && item.chave && !usados.has(item.chave)) {
-      output.push({
-        ...item,
-        visivel: normalizarBooleanVisibilidade(item.visivel, true)
-      });
-    }
   });
 
   return output.sort((a, b) => (Number(a.ordem) || 0) - (Number(b.ordem) || 0) || String(a.chave).localeCompare(String(b.chave)));
@@ -671,7 +665,7 @@ const activities = [
     intro: "Síntese das tarefas individuais associadas aos conteúdos trabalhados na UFCD.",
     url: "atividades/tarefas-individuais.html",
     children: [
-      { id: "acompanhamento-ti", title: "Acompanhamento TI", intro: "Área de acompanhamento das tarefas individuais.", url: "atividades/acompanhamento-ti.html" }
+      { id: "acompanhamento-ti", title: "Acompanhamento TI", intro: "Área de acompanhamento das tarefas individuais.", url: "atividades/acompanhamento-ti.html", hiddenInMenu: true }
     ]
   },
   {
@@ -680,7 +674,7 @@ const activities = [
     intro: "Síntese das tarefas de grupo associadas aos conteúdos trabalhados na UFCD.",
     url: "atividades/tarefas-grupo.html",
     children: [
-      { id: "acompanhamento-tg", title: "Acompanhamento TG", intro: "Área de acompanhamento das tarefas de grupo.", url: "atividades/acompanhamento-tg.html" }
+      { id: "acompanhamento-tg", title: "Acompanhamento TG", intro: "Área de acompanhamento das tarefas de grupo.", url: "atividades/acompanhamento-tg.html", hiddenInMenu: true }
     ]
   },
   {
@@ -697,77 +691,89 @@ const activities = [
 
 const groupTasks = [
   {
-    topic: "Vocabulário inicial de bases de dados",
-    intro: "Construir um glossário colaborativo com conceitos essenciais para começar a trabalhar SQL.",
+    day: "Dia 2",
+    sessions: "Sessões 3-6",
+    theory: "Introdução a bases de dados + ambientes de bases de dados",
+    topic: "Palavra do glossário: Base de dados",
+    intro: "Construir uma definição clara para o conceito de base de dados, usando linguagem acessível e um exemplo próximo da realidade.",
     words: [
-      ["Base de dados", "Organização de informação"],
-      ["Tabela", "Estrutura principal"],
-      ["Campo", "Coluna da tabela"],
-      ["Registo", "Linha da tabela"],
+      ["Base de dados", "Organização de informação"]
+    ]
+  },
+  {
+    day: "Dia 3",
+    sessions: "Sessões 7-10",
+    theory: "Terminologia + planeamento/desenho",
+    topic: "Palavra do glossário: Chave primária",
+    intro: "Explicar a função da chave primária numa tabela e porque é importante para identificar registos.",
+    words: [
       ["Chave primária", "Identificação única"]
     ]
   },
   {
-    topic: "Planeamento de tabelas",
-    intro: "Identificar entidades, atributos e relações antes de criar a base de dados.",
+    day: "Dia 4",
+    sessions: "Sessões 11-14",
+    theory: "Introdução ao SQL + primeiras consultas",
+    topic: "Palavra do glossário: SELECT",
+    intro: "Definir o comando SELECT e indicar para que serve numa consulta SQL.",
     words: [
-      ["Entidade", "Elemento sobre o qual guardamos dados"],
-      ["Atributo", "Característica da entidade"],
-      ["Relação", "Ligação entre tabelas"],
-      ["Integridade", "Regras para dados coerentes"],
-      ["Normalização", "Organização sem repetição desnecessária"]
+      ["SELECT", "Consultar dados"]
     ]
   },
   {
-    topic: "Comandos SQL fundamentais",
-    intro: "Reunir comandos usados para criar, consultar e manipular dados.",
+    day: "Dia 5",
+    sessions: "Sessões 15-18",
+    theory: "Criação de bases de dados + tabelas e integridade",
+    topic: "Palavra do glossário: Integridade dos dados",
+    intro: "Clarificar o significado de integridade dos dados e dar um exemplo de regra que ajuda a manter dados corretos.",
     words: [
-      ["SELECT", "Consultar dados"],
-      ["CREATE TABLE", "Criar tabelas"],
-      ["INSERT", "Inserir registos"],
-      ["UPDATE", "Alterar registos"],
-      ["DELETE", "Eliminar registos"]
+      ["Integridade dos dados", "Dados corretos e coerentes"]
     ]
   },
   {
-    topic: "Filtragem e ordenação",
-    intro: "Explorar formas de encontrar dados específicos e apresentar resultados organizados.",
+    day: "Dia 6",
+    sessions: "Sessões 19-22",
+    theory: "Fundamentos de Transact-SQL + filtragem e ordenação",
+    topic: "Palavra do glossário: WHERE",
+    intro: "Explicar como a cláusula WHERE permite filtrar resultados numa consulta.",
     words: [
-      ["WHERE", "Filtrar resultados"],
-      ["ORDER BY", "Ordenar resultados"],
-      ["AND", "Combinar condições"],
-      ["OR", "Alternativas de condição"],
-      ["LIKE", "Procurar padrões de texto"]
+      ["WHERE", "Filtrar resultados"]
     ]
   }
 ];
 
 const individualTasks = [
   {
-    title: "Identificar uma base de dados",
-    topic: "Introdução a bases de dados",
+    day: "Dia 2",
+    sessions: "Sessões 3-6",
+    title: "Identificar uma situação real",
+    topic: "Introdução a bases de dados + ambientes de bases de dados",
     intro: "Escolher uma situação real e explicar que dados poderiam ser guardados.",
     prompts: [
       "Indica o contexto escolhido.",
-      "Identifica pelo menos uma tabela possível.",
-      "Propõe três campos adequados para essa tabela.",
-      "Explica para que serviria consultar esses dados."
+      "Identifica que informação teria de ser guardada.",
+      "Propõe pelo menos uma tabela possível.",
+      "Indica três campos adequados para essa tabela."
     ]
   },
   {
-    title: "Desenhar uma tabela",
-    topic: "Tabelas, campos e registos",
-    intro: "Transformar uma situação simples numa estrutura de tabela.",
+    day: "Dia 3",
+    sessions: "Sessões 7-10",
+    title: "Desenhar uma base de dados simples",
+    topic: "Terminologia + planeamento/desenho",
+    intro: "Representar uma base de dados simples com tabelas, campos e chave primária.",
     prompts: [
-      "Dá um nome claro à tabela.",
-      "Lista os campos necessários.",
-      "Identifica qual poderia ser a chave primária.",
-      "Escreve dois exemplos de registos."
+      "Define o objetivo da base de dados.",
+      "Desenha uma ou mais tabelas simples.",
+      "Lista os campos principais de cada tabela.",
+      "Assinala a chave primária."
     ]
   },
   {
-    title: "Criar uma consulta SELECT",
-    topic: "Introdução ao SQL",
+    day: "Dia 4",
+    sessions: "Sessões 11-14",
+    title: "Escrever consultas simples",
+    topic: "Introdução ao SQL + primeiras consultas",
     intro: "Escrever consultas simples para obter dados de uma tabela.",
     prompts: [
       "Define o nome da tabela a consultar.",
@@ -777,14 +783,29 @@ const individualTasks = [
     ]
   },
   {
-    title: "Filtrar e ordenar resultados",
-    topic: "Filtragem e ordenação de dados",
-    intro: "Aplicar condições e ordenação numa consulta SQL.",
+    day: "Dia 5",
+    sessions: "Sessões 15-18",
+    title: "Criar uma tabela",
+    topic: "Criação de bases de dados + tabelas e integridade",
+    intro: "Criar uma tabela com campos, tipos de dados e chave primária.",
     prompts: [
-      "Escolhe uma condição usando WHERE.",
-      "Ordena os resultados com ORDER BY.",
-      "Explica porque escolheste esse filtro.",
-      "Indica uma situação em que esta consulta seria útil."
+      "Escolhe o nome da tabela.",
+      "Define os campos necessários.",
+      "Indica o tipo de dados de cada campo.",
+      "Identifica a chave primária."
+    ]
+  },
+  {
+    day: "Dia 6",
+    sessions: "Sessões 19-22",
+    title: "Reflexão individual",
+    topic: "Fundamentos de Transact-SQL + filtragem e ordenação",
+    intro: "Refletir sobre contributos, aprendizagens e dificuldades sentidas ao longo das atividades.",
+    prompts: [
+      "Identifica o teu principal contributo para as atividades.",
+      "Regista uma aprendizagem importante.",
+      "Indica uma dificuldade que ainda precisas de trabalhar.",
+      "Define uma estratégia para melhorar na utilização de SQL."
     ]
   }
 ];
@@ -2373,12 +2394,48 @@ function obterSecaoIndexPorSubmenu() {
 }
 
 function abrirSubmenuPrincipal(submenuId) {
+  const targetSubmenu = document.getElementById(submenuId);
+  const shouldOpenTarget = Boolean(targetSubmenu?.querySelector("a"));
+
   document.querySelectorAll(".nav-parent").forEach((button) => {
-    button.setAttribute("aria-expanded", String(button.getAttribute("aria-controls") === submenuId));
+    button.setAttribute("aria-expanded", String(shouldOpenTarget && button.getAttribute("aria-controls") === submenuId));
   });
 
   document.querySelectorAll(".submenu").forEach((submenu) => {
-    submenu.classList.toggle("open", submenu.id === submenuId);
+    submenu.classList.toggle("open", shouldOpenTarget && submenu.id === submenuId);
+  });
+}
+
+function guardarDestinoMenuIndex(submenuId, sectionId) {
+  try {
+    sessionStorage.setItem(MENU_TARGET_STORAGE_KEY, JSON.stringify({ submenuId, sectionId }));
+  } catch (error) {
+    // Se o armazenamento de sessão estiver bloqueado, a navegação por hash continua a funcionar.
+  }
+}
+
+function obterDestinoMenuIndex() {
+  try {
+    return JSON.parse(sessionStorage.getItem(MENU_TARGET_STORAGE_KEY) || "null");
+  } catch (error) {
+    return null;
+  }
+}
+
+function limparDestinoMenuIndex() {
+  try {
+    sessionStorage.removeItem(MENU_TARGET_STORAGE_KEY);
+  } catch (error) {
+    // Não impede a navegação.
+  }
+}
+
+function deslizarParaSecaoIndex(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+
+  window.requestAnimationFrame(() => {
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
 
@@ -2386,12 +2443,19 @@ function abrirMenuPeloHashDoIndex() {
   if (document.body.dataset.page !== "home") return;
 
   const hash = window.location.hash.replace("#", "");
-  if (!hash) return;
+  const storedTarget = obterDestinoMenuIndex();
+  const sectionId = storedTarget?.sectionId || hash;
+  if (!sectionId) return;
 
   const submenuId = Object.entries(obterSecaoIndexPorSubmenu())
-    .find(([, sectionId]) => sectionId === hash)?.[0];
+    .find(([, mappedSectionId]) => mappedSectionId === sectionId)?.[0];
 
   if (submenuId) abrirSubmenuPrincipal(submenuId);
+  if (storedTarget?.sectionId) {
+    limparDestinoMenuIndex();
+    history.replaceState(null, "", `#${sectionId}`);
+    deslizarParaSecaoIndex(sectionId);
+  }
 }
 
 function setupMenu() {
@@ -2410,19 +2474,20 @@ function setupMenu() {
 
     button.addEventListener("click", () => {
       const submenuId = button.getAttribute("aria-controls");
+      const sectionId = homeSectionBySubmenu[submenuId];
 
-      if (document.body.dataset.page !== "home" && homeSectionBySubmenu[submenuId]) {
-        window.location.href = `${getBasePath()}index.html#${homeSectionBySubmenu[submenuId]}`;
+      if (document.body.dataset.page !== "home" && sectionId) {
+        guardarDestinoMenuIndex(submenuId, sectionId);
+        window.location.href = `${getBasePath()}index.html#${sectionId}`;
         return;
       }
 
       const submenu = document.getElementById(submenuId);
       if (submenu) abrirSubmenuPrincipal(submenuId);
 
-      if (document.body.dataset.page === "home" && homeSectionBySubmenu[submenuId]) {
-        const section = document.getElementById(homeSectionBySubmenu[submenuId]);
-        section?.scrollIntoView({ behavior: "smooth", block: "start" });
-        history.replaceState(null, "", `#${homeSectionBySubmenu[submenuId]}`);
+      if (document.body.dataset.page === "home" && sectionId) {
+        deslizarParaSecaoIndex(sectionId);
+        history.replaceState(null, "", `#${sectionId}`);
       }
     });
   });
@@ -2439,7 +2504,25 @@ function setupMenu() {
   document.querySelectorAll(".side-nav a:not(.nav-parent)").forEach((link) => {
     if (link.dataset.menuLinkReady) return;
     link.dataset.menuLinkReady = "true";
-    link.addEventListener("click", () => {
+    link.addEventListener("click", (event) => {
+      const href = link.getAttribute("href") || "";
+      const targetUrl = new URL(href, window.location.href);
+      const currentPath = window.location.pathname.replace(/\/+$/, "");
+      const targetPath = targetUrl.pathname.replace(/\/+$/, "");
+      const isSamePage = currentPath === targetPath;
+      const sectionId = targetUrl.hash.replace("#", "");
+      const submenuId = Object.entries(homeSectionBySubmenu)
+        .find(([, mappedSectionId]) => mappedSectionId === sectionId)?.[0];
+
+      if (submenuId && isSamePage) {
+        event.preventDefault();
+        abrirSubmenuPrincipal(submenuId);
+        deslizarParaSecaoIndex(sectionId);
+        history.replaceState(null, "", `#${sectionId}`);
+      } else if (submenuId && !isSamePage) {
+        guardarDestinoMenuIndex(submenuId, sectionId);
+      }
+
       document.body.classList.remove("menu-open");
       toggle?.setAttribute("aria-expanded", "false");
     });
@@ -2819,6 +2902,7 @@ function renderContentMenus() {
     const topic = topicById[item.topicId];
 
     if (topic) {
+      if (!topicSiteVisivel(topic.id)) return "";
       const topicFile = topic.url.split("/").pop();
       const isActive = topicFile === currentFile;
       const classes = [isActive ? "active" : "", item.theme ? `submenu-link-${item.theme}` : ""].filter(Boolean).join(" ");
@@ -2831,7 +2915,10 @@ function renderContentMenus() {
   menus.forEach((menu) => {
     menu.innerHTML = contentMenuGroups.map((item) => {
       if (item.children) {
-        const visibleChildren = item.children;
+        const visibleChildren = item.children.filter((child) => {
+          const topic = topicById[child.topicId];
+          return topic && topicSiteVisivel(topic.id);
+        });
         if (!visibleChildren.length) return "";
         const groupId = `content-group-${item.title.toLowerCase().replace(/\s+/g, "-").normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`;
         const groupIsActive = visibleChildren.some((child) => {
@@ -2895,7 +2982,12 @@ function setupEvaluationMenu() {
     submenu.id = "submenu-avaliacao";
   }
 
-  const visibleEvaluationItems = evaluationItems;
+  const visibleEvaluationItems = evaluationItems
+    .map((item) => ({
+      ...item,
+      children: (item.children || []).filter((child) => evaluationSiteVisivel(child.id))
+    }))
+    .filter((item) => evaluationSiteVisivel(item.id) || item.children.length);
 
   submenu.innerHTML = visibleEvaluationItems.length ? visibleEvaluationItems.map((item) => `
     <a href="${basePath}${item.url}">${item.menuTitle || item.title}</a>
@@ -2929,21 +3021,29 @@ function renderActivityMenus() {
   const currentFile = window.location.pathname.split("/").pop() || "";
 
   menus.forEach((menu) => {
-    const visibleActivities = activities;
+    const visibleActivities = activities
+      .map((activity) => ({
+        ...activity,
+        children: (activity.children || []).filter((child) => activitySiteVisivel(child.id) && !child.hiddenInMenu)
+      }))
+      .filter((activity) => activitySiteVisivel(activity.id) || activity.children.length);
 
     if (!visibleActivities.length) {
       menu.innerHTML = '<span class="submenu-note">A acrescentar gradualmente</span>';
       return;
     }
 
-    menu.innerHTML = visibleActivities.map((activity) => `
+    menu.innerHTML = visibleActivities.map((activity) => {
+      const visibleChildren = activity.children || [];
+      return `
       <a href="${basePath}${activity.url}" class="${activity.url.split("/").pop() === currentFile ? "active" : ""}">${activity.title}</a>
-      ${(activity.children || []).length ? `
+      ${visibleChildren.length ? `
         <div class="submenu-children">
-          ${activity.children.map((child) => `<a href="${basePath}${child.url}" class="${child.url.split("/").pop() === currentFile ? "active" : ""}">${child.title}</a>`).join("")}
+          ${visibleChildren.map((child) => `<a href="${basePath}${child.url}" class="${child.url.split("/").pop() === currentFile ? "active" : ""}">${child.title}</a>`).join("")}
         </div>
       ` : ""}
-    `).join("");
+    `;
+    }).join("");
   });
 }
 
@@ -3196,16 +3296,13 @@ async function setupTeamsControl(root) {
 
   if (controlStatus) controlStatus.textContent = "A carregar visibilidade do site...";
   const visibilidadeRemotaOk = await carregarVisibilidadeRemotaDoSite();
-  if (document.body.dataset.page === "teams-control") {
-    disponibilizarTodosItensDoSite();
-    guardarVisibilidadeDoSite();
-    guardarVisibilidadeRemotaDoSite();
-  }
   atualizarControlosVisibilidadeDoSite(root);
   setupSiteControlAccordions(root);
   if (controlStatus) {
     controlStatus.textContent = document.body.dataset.page === "teams-control"
-      ? "Tudo disponivel no controlo do site. Pedido enviado para a Apps Script."
+      ? (visibilidadeRemotaOk
+        ? "Visibilidade carregada. Altera os itens e guarda quando estiver pronto."
+        : "Controlo pronto. Altera os itens e guarda quando estiver pronto.")
       : (visibilidadeRemotaOk
         ? "Visibilidade carregada da configuração central."
         : "Alterações guardadas neste browser. A configuração central ainda não respondeu.");
@@ -3855,8 +3952,8 @@ function renderTaskTracking(container, dados, tipo) {
   if (!dados.totalUnidades) {
     container.innerHTML = `
       <div class="task-tracking-warning">
-        <strong>Dados indisponíveis</strong>
-        <span>Para apresentar a tabela, a Apps Script tem de devolver a folha Tarefas e a lista oficial da folha Formandos.</span>
+        <strong>Acompanhamento por atualizar</strong>
+        <span>Os resultados serão apresentados depois do registo da avaliação.</span>
       </div>
     `;
     return;
@@ -3868,8 +3965,8 @@ function renderTaskTracking(container, dados, tipo) {
   const label = tipo === "TI" ? "tarefas individuais" : "tarefas de grupo";
   const avisoTarefas = dados.tarefasDisponiveis ? "" : `
     <div class="task-tracking-warning">
-      <strong>Folha Tarefas ainda não recebida</strong>
-      <span>A lista foi carregada, mas a Apps Script ainda não devolveu as colunas ${tipo}00 a ${tipo}12 da folha Tarefas.</span>
+      <strong>Acompanhamento por atualizar</strong>
+      <span>Os resultados serão apresentados depois do registo da avaliação.</span>
     </div>
   `;
 
@@ -4416,6 +4513,12 @@ function renderActivityPage() {
                 </summary>
 
                 <div class="task-module-body">
+                  <div class="task-meta-strip" aria-label="Enquadramento da atividade">
+                    <span><strong>Dia</strong> ${task.day}</span>
+                    <span><strong>Sessões</strong> ${task.sessions}</span>
+                    <span><strong>Teoria</strong> ${isIndividual ? task.topic : task.theory}</span>
+                  </div>
+
                   <p>${isIndividual ? `Tema associado: ${task.topic}.` : "Cada termo deve ser trabalhado com uma definição clara, um exemplo simples e linguagem acessível."}</p>
 
                   <div class="task-block">
