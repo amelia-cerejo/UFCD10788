@@ -368,7 +368,7 @@ function obterItensConteudoVisibilidade() {
   const addTopic = (topicId) => {
     const topic = topics.find((item) => item.id === topicId);
     if (!topic) return;
-    items.push(criarItemVisibilidade(
+    const itemVis = criarItemVisibilidade(
       "conteudos",
       `conteudo-${topic.id}`,
       topic.title,
@@ -377,7 +377,9 @@ function obterItensConteudoVisibilidade() {
       "item",
       true,
       110 + items.length
-    ));
+    );
+    itemVis.gammaUrl = topic.gammaUrl || "";
+    items.push(itemVis);
   };
 
   contentMenuGroups.forEach((item) => {
@@ -485,6 +487,8 @@ function juntarItensVisibilidadeComConstituicao(items) {
     output.push({
       ...item,
       visivel: existente ? normalizarBooleanVisibilidade(existente.visivel, item.visivel) : normalizarBooleanVisibilidade(defaultVisivel, true),
+      url: existente && String(existente.url || "").trim() ? existente.url : (item.url || ""),
+      gammaUrl: existente && existente.gammaUrl !== undefined ? existente.gammaUrl : (item.gammaUrl || ""),
       data_atualizacao: existente?.data_atualizacao || item.data_atualizacao || ""
     });
   });
@@ -507,6 +511,18 @@ function garantirItensVisibilidadeSite() {
         : item.visivel
     }));
   }
+
+  // Sincronizar topicEmbeds e topics com os itens de visibilidade
+  siteVisibilityItems.forEach((item) => {
+    if (item.chave && item.chave.startsWith("conteudo-") && item.gammaUrl !== undefined) {
+      const topicId = item.chave.replace("conteudo-", "");
+      topicEmbeds[topicId] = item.gammaUrl;
+      const topic = topics.find((t) => t.id === topicId);
+      if (topic) {
+        topic.gammaUrl = item.gammaUrl;
+      }
+    }
+  });
 
   return siteVisibilityItems;
 }
@@ -749,6 +765,7 @@ const individualTasks = [
     title: "Identificar uma situação real",
     topic: "Introdução a bases de dados + ambientes de bases de dados",
     intro: "Escolher uma situação real e explicar que dados poderiam ser guardados.",
+    forumUrl: "https://fad.iefp.pt/mod/forum/discuss.php?d=53751",
     prompts: [
       "Indica o contexto escolhido.",
       "Identifica que informação teria de ser guardada.",
@@ -762,6 +779,7 @@ const individualTasks = [
     title: "Desenhar uma base de dados simples",
     topic: "Terminologia + planeamento/desenho",
     intro: "Representar uma base de dados simples com tabelas, campos e chave primária.",
+    forumUrl: "https://fad.iefp.pt/mod/forum/discuss.php?d=53752",
     prompts: [
       "Define o objetivo da base de dados.",
       "Desenha uma ou mais tabelas simples.",
@@ -775,6 +793,7 @@ const individualTasks = [
     title: "Escrever consultas simples",
     topic: "Introdução ao SQL + primeiras consultas",
     intro: "Escrever consultas simples para obter dados de uma tabela.",
+    forumUrl: "https://fad.iefp.pt/mod/forum/discuss.php?d=53753",
     prompts: [
       "Define o nome da tabela a consultar.",
       "Escolhe os campos a apresentar.",
@@ -788,6 +807,7 @@ const individualTasks = [
     title: "Criar uma tabela",
     topic: "Criação de bases de dados + tabelas e integridade",
     intro: "Criar uma tabela com campos, tipos de dados e chave primária.",
+    forumUrl: "https://fad.iefp.pt/mod/forum/discuss.php?d=53754",
     prompts: [
       "Escolhe o nome da tabela.",
       "Define os campos necessários.",
@@ -801,6 +821,7 @@ const individualTasks = [
     title: "Reflexão individual",
     topic: "Fundamentos de Transact-SQL + filtragem e ordenação",
     intro: "Refletir sobre contributos, aprendizagens e dificuldades sentidas ao longo das atividades.",
+    forumUrl: "https://fad.iefp.pt/mod/forum/discuss.php?d=53755",
     prompts: [
       "Identifica o teu principal contributo para as atividades.",
       "Regista uma aprendizagem importante.",
@@ -2462,13 +2483,6 @@ function setupMenu() {
   const homeSectionBySubmenu = obterSecaoIndexPorSubmenu();
 
   document.querySelectorAll(".nav-parent").forEach((button) => {
-    button.setAttribute("aria-expanded", "false");
-  });
-  document.querySelectorAll(".submenu").forEach((submenu) => {
-    submenu.classList.remove("open");
-  });
-
-  document.querySelectorAll(".nav-parent").forEach((button) => {
     if (button.dataset.navParentReady) return;
     button.dataset.navParentReady = "true";
 
@@ -2825,7 +2839,7 @@ function renderHomeCards() {
   const grid = document.getElementById("home-content-grid");
   if (!grid) return;
 
-  const visibleTopics = getOfficialProgramTopics();
+  const visibleTopics = getOfficialProgramTopics().filter((topic) => topicSiteVisivel(topic.id));
 
   grid.innerHTML = visibleTopics.length ? visibleTopics.map((topic, index) => `
     <a class="card card-link" href="${topic.url}">
@@ -2839,7 +2853,7 @@ function renderConteudosIndex() {
   const grid = document.getElementById("conteudos-index-grid");
   if (!grid) return;
 
-  const visibleTopics = getOfficialProgramTopics();
+  const visibleTopics = getOfficialProgramTopics().filter((topic) => topicSiteVisivel(topic.id));
 
   grid.innerHTML = visibleTopics.length ? visibleTopics.map((topic, index) => `
     <a class="card card-link" href="${topic.url}">
@@ -3099,6 +3113,40 @@ function renderSiteVisibilityControls() {
 
   const renderToggle = (item) => {
     const checked = normalizarBooleanVisibilidade(item.visivel, true) ? "checked" : "";
+    const isConteudo = item.tipo === "conteudo";
+    const isTarefa = item.tipo === "tarefa_individual" || item.tipo === "tarefa_grupo";
+    
+    if (isConteudo || isTarefa) {
+      const labelText = isConteudo ? "Gamma URL:" : "Moodle URL:";
+      const placeholderText = isConteudo ? "https://gamma.app/embed/..." : "https://fad.iefp.pt/mod/...";
+      const valueText = isConteudo ? (item.gammaUrl || "") : (item.url || "");
+      const dataAttr = isConteudo ? `data-gamma-key="${escapeHtml(item.chave)}"` : `data-moodle-key="${escapeHtml(item.chave)}"`;
+      const inputClass = isConteudo ? "gamma-url-input" : "moodle-url-input";
+
+      return `
+        <div class="site-control-option-container" style="display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 8px; background: var(--cor-fundo-suave); border: 1px solid var(--cor-linha);">
+          <label class="site-control-option" style="background: transparent; padding: 0; min-height: auto; border-radius: 0; font-weight: 700; width: 100%; display: flex; align-items: center; gap: 10px;">
+            <input
+              type="checkbox"
+              data-site-visibility-key="${escapeHtml(item.chave)}"
+              ${checked}>
+            <span>${escapeHtml(item.titulo)}</span>
+          </label>
+          <div style="display: flex; align-items: center; gap: 8px; margin-left: 26px;">
+            <span style="font-size: 0.8rem; color: var(--cor-texto-suave); font-weight: normal; white-space: nowrap;">${labelText}</span>
+            <input
+              type="text"
+              class="${inputClass}"
+              ${dataAttr}
+              placeholder="${placeholderText}"
+              value="${escapeHtml(valueText)}"
+              style="flex: 1; min-width: 0; padding: 6px 8px; font-size: 0.82rem; border: 1px solid var(--cor-linha); border-radius: 6px; color: var(--cor-texto); background: var(--cor-branco);"
+            />
+          </div>
+        </div>
+      `;
+    }
+    
     return `
       <label class="site-control-option ${item.nivel === "secao" ? "site-control-option-section" : ""}">
         <input
@@ -3160,6 +3208,40 @@ function atualizarControlosVisibilidadeDoSite(root) {
     const item = siteVisibilityItems.find((visibilityItem) => visibilityItem.chave === key);
     if (item) {
       input.checked = normalizarBooleanVisibilidade(item.visivel, true);
+    }
+  });
+
+  root.querySelectorAll(".gamma-url-input").forEach((input) => {
+    const key = input.dataset.gammaKey;
+    const item = siteVisibilityItems.find((visibilityItem) => visibilityItem.chave === key);
+    if (item && document.activeElement !== input) {
+      input.value = item.gammaUrl || "";
+    }
+  });
+
+  root.querySelectorAll(".moodle-url-input").forEach((input) => {
+    const key = input.dataset.moodleKey;
+    const item = siteVisibilityItems.find((visibilityItem) => visibilityItem.chave === key);
+    if (item && document.activeElement !== input) {
+      input.value = item.url || "";
+    }
+  });
+}
+
+function sincronizarCamposUrlControloSite(root) {
+  root.querySelectorAll(".gamma-url-input").forEach((input) => {
+    const key = input.dataset.gammaKey;
+    const item = siteVisibilityItems.find((visibilityItem) => visibilityItem.chave === key);
+    if (item) {
+      item.gammaUrl = input.value.trim();
+    }
+  });
+
+  root.querySelectorAll(".moodle-url-input").forEach((input) => {
+    const key = input.dataset.moodleKey;
+    const item = siteVisibilityItems.find((visibilityItem) => visibilityItem.chave === key);
+    if (item) {
+      item.url = input.value.trim();
     }
   });
 }
@@ -3253,7 +3335,11 @@ function setupTeamsAccordions(root) {
   if (!accordions.length) return;
 
   accordions.forEach((accordion) => {
-    accordion.addEventListener("toggle", () => {
+    if (accordion.dataset.accordionReady) return;
+    accordion.dataset.accordionReady = "true";
+
+    accordion.addEventListener("toggle", (event) => {
+      if (event.target !== accordion) return;
       if (!accordion.open) return;
       accordions.forEach((otherAccordion) => {
         if (otherAccordion !== accordion) {
@@ -3269,7 +3355,11 @@ function setupSiteControlAccordions(root) {
   if (!accordions.length) return;
 
   accordions.forEach((accordion) => {
-    accordion.addEventListener("toggle", () => {
+    if (accordion.dataset.siteAccordionReady) return;
+    accordion.dataset.siteAccordionReady = "true";
+
+    accordion.addEventListener("toggle", (event) => {
+      if (event.target !== accordion) return;
       if (!accordion.open) return;
       accordions.forEach((otherAccordion) => {
         if (otherAccordion !== accordion) {
@@ -3331,8 +3421,9 @@ async function setupTeamsControl(root) {
     const saveVisibilityButton = event.target.closest('[data-action="save-site-visibility"]');
     if (saveVisibilityButton) {
       const controlStatus = root.querySelector("[data-site-control-status]");
-      const totalItens = garantirItensVisibilidadeSite().length;
       saveVisibilityButton.disabled = true;
+      sincronizarCamposUrlControloSite(root);
+      const totalItens = garantirItensVisibilidadeSite().length;
       if (controlStatus) controlStatus.textContent = `A guardar ${totalItens} itens na Apps Script...`;
       guardarVisibilidadeDoSite();
       await guardarVisibilidadeRemotaDoSite();
@@ -3350,6 +3441,36 @@ async function setupTeamsControl(root) {
     if (event.target.matches('[data-action="teams-show-inactive"]')) {
       root.dataset.showInactiveTeams = event.target.checked ? "true" : "false";
       carregarDadosTeams(root);
+      return;
+    }
+
+    if (event.target.matches(".gamma-url-input")) {
+      const key = event.target.dataset.gammaKey;
+      const item = siteVisibilityItems.find((visibilityItem) => visibilityItem.chave === key);
+      if (item) {
+        item.gammaUrl = event.target.value.trim();
+        const totalItens = garantirItensVisibilidadeSite().length;
+        guardarVisibilidadeDoSite();
+        atualizarControlosVisibilidadeDoSite(root);
+        guardarVisibilidadeRemotaDoSite();
+        const controlStatus = root.querySelector("[data-site-control-status]");
+        if (controlStatus) controlStatus.textContent = `Gamma URL atualizado. Pedido enviado com ${totalItens} itens.`;
+      }
+      return;
+    }
+
+    if (event.target.matches(".moodle-url-input")) {
+      const key = event.target.dataset.moodleKey;
+      const item = siteVisibilityItems.find((visibilityItem) => visibilityItem.chave === key);
+      if (item) {
+        item.url = event.target.value.trim();
+        const totalItens = garantirItensVisibilidadeSite().length;
+        guardarVisibilidadeDoSite();
+        atualizarControlosVisibilidadeDoSite(root);
+        guardarVisibilidadeRemotaDoSite();
+        const controlStatus = root.querySelector("[data-site-control-status]");
+        if (controlStatus) controlStatus.textContent = `Moodle URL atualizado. Pedido enviado com ${totalItens} itens.`;
+      }
       return;
     }
 
@@ -3383,6 +3504,33 @@ async function setupTeamsControl(root) {
         if (controlStatus) controlStatus.textContent = `Visibilidade atualizada. Pedido enviado com ${totalItens} itens.`;
       }
     }
+  });
+
+  root.addEventListener("input", (event) => {
+    if (event.target.matches(".gamma-url-input")) {
+      const key = event.target.dataset.gammaKey;
+      const item = siteVisibilityItems.find((visibilityItem) => visibilityItem.chave === key);
+      if (item) {
+        item.gammaUrl = event.target.value.trim();
+      }
+      return;
+    }
+
+    if (event.target.matches(".moodle-url-input")) {
+      const key = event.target.dataset.moodleKey;
+      const item = siteVisibilityItems.find((visibilityItem) => visibilityItem.chave === key);
+      if (item) {
+        item.url = event.target.value.trim();
+      }
+    }
+  });
+
+  root.addEventListener("keydown", (event) => {
+    if (!event.target.matches(".gamma-url-input, .moodle-url-input")) return;
+    if (event.key !== "Enter") return;
+
+    event.preventDefault();
+    event.target.blur();
   });
 }
 
@@ -4460,6 +4608,13 @@ function renderActivityPage() {
   if (activity.id === "tarefas-grupo" || activity.id === "tarefas-individuais") {
     const isIndividual = activity.id === "tarefas-individuais";
     const tasks = isIndividual ? individualTasks : groupTasks;
+    garantirItensVisibilidadeSite();
+    const getTaskVisibilityKey = (task, index) => isIndividual
+      ? `tarefa-individual-${slugify(task.title || `individual-${index + 1}`)}`
+      : `tarefa-grupo-${slugify(task.topic || `grupo-${index + 1}`)}`;
+    const visibleTasks = tasks
+      .map((task, index) => ({ task, originalIndex: index, key: getTaskVisibilityKey(task, index) }))
+      .filter(({ key }) => itemSiteVisivel(key));
     const overviewTitle = isIndividual ? "Fórum de atividades" : "Glossário colaborativo de SQL";
     const overviewIntro = isIndividual
       ? "Espaço dedicado às tarefas individuais, organizado por tópicos."
@@ -4502,14 +4657,19 @@ function renderActivityPage() {
           ${renderTaskTrackingShell(isIndividual ? "TI" : "TG")}
 
           <div class="task-module-list">
-            ${tasks.map((task, index) => `
+            ${visibleTasks.length ? visibleTasks.map(({ task, originalIndex, key }, visibleIndex) => {
+              const visItem = siteVisibilityItems.find((item) => item.chave === key);
+              const currentForumUrl = visItem?.url || task.forumUrl || task.url || "";
+              const taskActionLabel = isIndividual ? "Fazer tarefa no Moodle" : "Abrir glossário";
+
+              return `
               <details class="task-module-card">
                 <summary>
                   <span class="task-module-copy">
                     <strong>${isIndividual ? task.title : task.topic}</strong>
                     <small>${task.intro}</small>
                   </span>
-                  <span class="task-module-mark" aria-hidden="true">${isIndividual ? `TI ${index + 1}` : `TG ${index + 1}`}</span>
+                  <span class="task-module-mark" aria-hidden="true">${isIndividual ? `TI ${originalIndex + 1}` : `TG ${originalIndex + 1}`}</span>
                 </summary>
 
                 <div class="task-module-body">
@@ -4524,7 +4684,7 @@ function renderActivityPage() {
                   <div class="task-block">
                     <strong>${isIndividual ? "Orientações" : "Palavras a trabalhar"}</strong>
                     ${isIndividual ? `
-                      <ul class="clean-list task-prompt-list">
+                       <ul class="clean-list task-prompt-list">
                         ${task.prompts.map((prompt) => `<li>${prompt}</li>`).join("")}
                       </ul>
                     ` : `
@@ -4534,14 +4694,21 @@ function renderActivityPage() {
                     `}
                   </div>
 
-                  ${task.forumUrl ? `
+                  ${currentForumUrl ? `
                     <div class="embed-fallback resource-action-row align-right">
-                      <a class="small-button" href="${task.forumUrl}" target="_blank" rel="noopener">${isIndividual ? "Abrir tarefa" : "Abrir glossário"}</a>
+                      <a class="small-button" href="${currentForumUrl}" target="_blank" rel="noopener">${taskActionLabel}</a>
                     </div>
                   ` : ""}
                 </div>
               </details>
-            `).join("")}
+              `;
+            }).join("") : `
+              <article class="card placeholder-note">
+                <p class="eyebrow">${isIndividual ? "Tarefas individuais" : "Tarefas de grupo"}</p>
+                <h3>Ainda sem tarefas disponíveis</h3>
+                <p>As tarefas serão apresentadas aqui quando forem ativadas no controlo do site.</p>
+              </article>
+            `}
           </div>
         </div>
       </section>
@@ -6814,39 +6981,8 @@ function renderGammaTopicPage(root, topic, image, embedUrl) {
   const frameUrl = getGammaEmbedUrl(embedUrl);
   document.body.classList.add("gamma-view");
 
-  if (topic.id === "linguagens-c-cpp") {
-    root.innerHTML = `
-      <section class="section gamma-simple-title-section">
-        <div class="section-inner">
-          <article class="gamma-simple-title-card gamma-simple-title-card-lab">
-            <h1>${topic.cardTitle || topic.title}</h1>
-          </article>
-        </div>
-      </section>
-
-      <section class="section gamma-section content-gamma-full">
-        <iframe
-          class="external-frame full-page-frame gamma-content-frame"
-          src="${frameUrl}"
-          title="${topic.cardTitle || topic.title}"
-          loading="lazy"
-          allow="fullscreen"
-          allowfullscreen>
-        </iframe>
-      </section>
-    `;
-    return;
-  }
-
   root.innerHTML = `
-    <section class="hero content-hero" style="background-image: url('${image}')">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <h1>${topic.cardTitle || topic.title}</h1>
-      </div>
-    </section>
-
-    <section class="section gamma-section content-gamma-full">
+    <section class="gamma-section content-gamma-full" aria-label="${topic.cardTitle || topic.title}">
       <iframe
         class="external-frame full-page-frame gamma-content-frame"
         src="${frameUrl}"
@@ -6912,7 +7048,7 @@ function renderBinarioTopicPage(root, topic, image) {
               <div><strong>Valores</strong><span>8</span><span>4</span><span>2</span><span>1</span></div>
               <div><strong>Contam</strong><span>8</span><span>-</span><span>2</span><span>1</span></div>
             </div>
-            <p>Somamos apenas as posições com 1: <strong>8 + 2 + 1 = 11</strong>. Por isso, <strong>1011â‚‚ = 11â‚â‚€</strong>.</p>
+            <p>Somamos apenas as posições com 1: <strong>8 + 2 + 1 = 11</strong>. Por isso, <strong>1011₂ = 11₁₀</strong>.</p>
           </article>
 
           <article class="card">
@@ -6927,7 +7063,7 @@ function renderBinarioTopicPage(root, topic, image) {
                 <li>A posição 1 conta, por isso recebe 1.</li>
               </ul>
             </div>
-            <p>Resultado: <strong>13â‚â‚€ = 1101â‚‚</strong>.</p>
+            <p>Resultado: <strong>13₁₀ = 1101₂</strong>.</p>
           </article>
 
           <article class="card">
@@ -6945,10 +7081,10 @@ function renderBinarioTopicPage(root, topic, image) {
             <h2>Experimentar conversões simples</h2>
             <p>Converte os seguintes valores e confirma o raciocínio usado em cada passo.</p>
             <div class="criteria-tags">
-              <span>5â‚â‚€ â†’ binário</span>
-              <span>9â‚â‚€ â†’ binário</span>
-              <span>111â‚‚ â†’ decimal</span>
-              <span>1001â‚‚ â†’ decimal</span>
+              <span>5₁₀ → binário</span>
+              <span>9₁₀ → binário</span>
+              <span>111₂ → decimal</span>
+              <span>1001₂ → decimal</span>
             </div>
           </article>
         </div>
@@ -7181,7 +7317,7 @@ function renderUnicodeTopicPage(root, topic) {
           <article class="card">
             <h2>Exemplos de caracteres</h2>
             <div class="unicode-sample-grid">
-              <span>A</span><span>ç</span><span>á</span><span>â‚¬</span><span>Î©</span><span>ä¸­</span>
+              <span>A</span><span>ç</span><span>á</span><span>€</span><span>Ω</span><span>中</span>
             </div>
             <p>Cada carácter tem um código associado. Esse código pode depois ser guardado em bytes através de formatos como UTF-8.</p>
           </article>
@@ -7573,6 +7709,19 @@ function renderTopicPage() {
   document.body.classList.remove("gamma-view");
 
   root.innerHTML = `
+    <section class="section">
+      <div class="section-inner">
+        <article class="card placeholder-note">
+          <p class="eyebrow">Gamma</p>
+          <h1>${topic.cardTitle || topic.title}</h1>
+          <p>Esta página fica reservada para a apresentação Gamma deste conteúdo.</p>
+        </article>
+      </div>
+    </section>
+  `;
+  return;
+
+  root.innerHTML = `
     <section class="hero content-hero no-image-hero">
       <div class="hero-content">
         <p class="eyebrow">${topic.area || "Conteúdo"}</p>
@@ -7798,6 +7947,7 @@ if (APPS_SCRIPT_WEB_APP_URL && document.body.dataset.page !== "teams-control" &&
     }
   });
 }
+
 
 
 

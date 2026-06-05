@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UFCD 10788 | Tarefas individuais para Moodle</title>
+    <style>
+      :root {
+        --azul: #1e3a8a;
+        --azul-escuro: #0f3f5c;
+        --laranja: #f97316;
+        --amarelo: #f59e0b;
+        --texto: #374151;
+        --suave: #64748b;
+        --linha: #d7e3f8;
+        --fundo: #f8fafc;
+        --branco: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--texto);
+        background: var(--fundo);
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.6;
+      }
+
+      .topbar {
+        border-bottom: 1px solid var(--linha);
+        background: var(--branco);
+      }
+
+      .topbar-inner,
+      .page {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        min-width: 52px;
+        height: 52px;
+        border-radius: 8px;
+        color: var(--branco);
+        background: var(--azul-escuro);
+        font-weight: 900;
+      }
+
+      .brand strong {
+        display: block;
+        color: var(--azul-escuro);
+        font-size: 0.9rem;
+        line-height: 1.35;
+      }
+
+      .brand span:last-child {
+        color: var(--suave);
+        font-size: 0.88rem;
+      }
+
+      .home-link {
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: var(--branco);
+        background: var(--azul);
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .page {
+        padding: 36px 0 64px;
+      }
+
+      .intro {
+        max-width: 880px;
+        margin-bottom: 24px;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--laranja);
+        font-size: 0.82rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--azul-escuro);
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 1.06;
+      }
+
+      .intro p {
+        margin: 14px 0 0;
+        font-size: 1.05rem;
+      }
+
+      .note {
+        margin-bottom: 28px;
+        border-left: 6px solid var(--laranja);
+        border-radius: 8px;
+        padding: 16px 18px;
+        background: #fff7ed;
+      }
+
+      .layout {
+        display: grid;
+        gap: 26px;
+      }
+
+      .template-card {
+        overflow: hidden;
+        border: 1px solid var(--linha);
+        border-radius: 8px;
+        background: var(--branco);
+        box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);
+      }
+
+      .template-head {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 18px;
+        border-bottom: 1px solid var(--linha);
+        padding: 18px;
+      }
+
+      .template-head h2 {
+        margin: 0;
+        color: var(--azul-escuro);
+        font-size: 1.22rem;
+        line-height: 1.25;
+      }
+
+      .template-head p {
+        margin: 6px 0 0;
+        color: var(--suave);
+      }
+
+      .copy-button {
+        min-width: 118px;
+        border: 0;
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: var(--branco);
+        background: var(--laranja);
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .copy-button:hover {
+        background: var(--amarelo);
+      }
+
+      .template-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 0.95fr);
+      }
+
+      .preview,
+      .code-panel {
+        padding: 18px;
+      }
+
+      .preview {
+        background: #ffffff;
+      }
+
+      .code-panel {
+        border-left: 1px solid var(--linha);
+        background: #111827;
+      }
+
+      textarea {
+        display: block;
+        width: 100%;
+        min-height: 260px;
+        resize: vertical;
+        border: 0;
+        border-radius: 8px;
+        padding: 14px;
+        color: #e5e7eb;
+        background: #0b1120;
+        font: 0.88rem/1.5 Consolas, "Courier New", monospace;
+      }
+
+      @media (max-width: 860px) {
+        .topbar-inner,
+        .template-head {
+          display: grid;
+        }
+
+        .template-body {
+          grid-template-columns: 1fr;
+        }
+
+        .code-panel {
+          border-top: 1px solid var(--linha);
+          border-left: 0;
+        }
+
+        .home-link,
+        .copy-button {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">10788</span>
+          <span>
+            <strong>Fundamentos da linguagem SQL</strong>
+            Tarefas individuais para Moodle
+          </span>
+        </a>
+        <a class="home-link" href="index.html">Voltar ao site</a>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="intro">
+        <p class="eyebrow">Moodle</p>
+        <h1>Blocos HTML das tarefas individuais</h1>
+        <p>Modelos prontos a copiar para o Moodle, com estilos em linha e baseados nas tarefas individuais previstas para os Dias 2 a 6.</p>
+      </section>
+
+      <section class="note" aria-label="Nota importante">
+        <strong>Como usar:</strong> escolhe o bloco, clica em copiar e cola no editor HTML do Moodle. Podes ajustar o texto antes de publicar.
+      </section>
+
+      <section class="layout" id="templates" aria-label="Modelos Moodle"></section>
+    </main>
+
+    <script>
+      const templates = [
+        {
+          title: "Tarefas individuais - bloco da secção",
+          description: "Bloco geral para apresentar a secção de tarefas individuais no Moodle.",
+          html: `<div style="max-width: 1100px; margin: 0 auto 24px; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <div style="position: relative; overflow: hidden; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07);">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 30px 34px;">
+      <div style="min-width: 0;">
+        <h3 style="margin: 0; color: #0F3F5C; font-size: 28px; line-height: 1.16; font-weight: 900;">Tarefas individuais</h3>
+        <p style="margin: 12px 0 0; max-width: 780px; color: #374151; font-size: 15px; line-height: 1.6;">Atividades individuais associadas aos conteúdos trabalhados na UFCD 10788.</p>
+      </div>
+      <div style="display: grid; place-items: center; width: 64px; min-width: 64px; height: 64px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; color: #0F3F5C; font-size: 30px; font-weight: 900;">TI</div>
+    </div>
+    <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: linear-gradient(90deg, #F97316, #3B6FD8, #0F3F5C);"></div>
+  </div>
+
+  <div style="margin-top: 14px; padding: 18px 20px; border: 1px solid #D7E3F8; border-radius: 8px; background: #FFFFFF; box-shadow: 0 10px 24px rgba(30, 58, 138, 0.07); font-size: 15px;">
+    <p style="margin: 0 0 12px; line-height: 1.6;">Cada tópico corresponde a uma tarefa individual. As respostas devem ser organizadas de forma clara e submetidas conforme indicação do formador.</p>
+    <ul style="margin: 0; padding-left: 24px; line-height: 1.7;">
+      <li>Lê o enunciado com atenção antes de responder.</li>
+      <li>Usa exemplos simples e relacionados com situações reais.</li>
+      <li>Revê a resposta antes de submeter.</li>
+      <li>Regista dúvidas para esclarecer durante a sessão.</li>
+    </ul>
+  </div>
+</div>`
+        },
+        {
+          title: "TI 1 - Identificar uma situação real",
+          description: "Dia 2, sessões 3-6. Introdução a bases de dados e ambientes de bases de dados.",
+          html: `<div style="margin: 0 0 24px; padding: 28px 24px; border: 1px solid #D7E3F8; border-left: 6px solid #F97316; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <p style="margin: 0 0 8px; color: #F97316; font-size: 12px; font-weight: 900; text-transform: uppercase;">Dia 2 · Sessões 3-6</p>
+  <h3 style="margin: 0 0 10px; color: #0F3F5C; font-size: 24px; line-height: 1.2; font-weight: 900;">Identificar uma situação real</h3>
+  <p style="margin: 0 0 12px; line-height: 1.6;"><strong>Tema:</strong> Introdução a bases de dados + ambientes de bases de dados.</p>
+  <p style="margin: 0 0 14px; line-height: 1.6;">Escolhe uma situação real e explica que dados poderiam ser guardados numa base de dados.</p>
+  <ul style="margin: 0; padding-left: 22px; line-height: 1.7;">
+    <li>Indica o contexto escolhido.</li>
+    <li>Identifica que informação teria de ser guardada.</li>
+    <li>Propõe pelo menos uma tabela possível.</li>
+    <li>Indica três campos adequados para essa tabela.</li>
+  </ul>
+</div>`
+        },
+        {
+          title: "TI 2 - Desenhar uma base de dados simples",
+          description: "Dia 3, sessões 7-10. Terminologia e planeamento/desenho.",
+          html: `<div style="margin: 0 0 24px; padding: 28px 24px; border: 1px solid #D7E3F8; border-left: 6px solid #F97316; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <p style="margin: 0 0 8px; color: #F97316; font-size: 12px; font-weight: 900; text-transform: uppercase;">Dia 3 · Sessões 7-10</p>
+  <h3 style="margin: 0 0 10px; color: #0F3F5C; font-size: 24px; line-height: 1.2; font-weight: 900;">Desenhar uma base de dados simples</h3>
+  <p style="margin: 0 0 12px; line-height: 1.6;"><strong>Tema:</strong> Terminologia + planeamento/desenho.</p>
+  <p style="margin: 0 0 14px; line-height: 1.6;">Representa uma base de dados simples com tabelas, campos e chave primária.</p>
+  <ul style="margin: 0; padding-left: 22px; line-height: 1.7;">
+    <li>Define o objetivo da base de dados.</li>
+    <li>Desenha uma ou mais tabelas simples.</li>
+    <li>Lista os campos principais de cada tabela.</li>
+    <li>Assinala a chave primária.</li>
+  </ul>
+</div>`
+        },
+        {
+          title: "TI 3 - Escrever consultas simples",
+          description: "Dia 4, sessões 11-14. Introdução ao SQL e primeiras consultas.",
+          html: `<div style="margin: 0 0 24px; padding: 28px 24px; border: 1px solid #D7E3F8; border-left: 6px solid #3B6FD8; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <p style="margin: 0 0 8px; color: #3B6FD8; font-size: 12px; font-weight: 900; text-transform: uppercase;">Dia 4 · Sessões 11-14</p>
+  <h3 style="margin: 0 0 10px; color: #0F3F5C; font-size: 24px; line-height: 1.2; font-weight: 900;">Escrever consultas simples</h3>
+  <p style="margin: 0 0 12px; line-height: 1.6;"><strong>Tema:</strong> Introdução ao SQL + primeiras consultas.</p>
+  <p style="margin: 0 0 14px; line-height: 1.6;">Escreve consultas simples para obter dados de uma tabela.</p>
+  <ul style="margin: 0; padding-left: 22px; line-height: 1.7;">
+    <li>Define o nome da tabela a consultar.</li>
+    <li>Escolhe os campos a apresentar.</li>
+    <li>Escreve uma consulta <code style="background: #F1F5F9; padding: 2px 5px; border-radius: 4px;">SELECT</code> simples.</li>
+    <li>Explica por palavras tuas o resultado esperado.</li>
+  </ul>
+</div>`
+        },
+        {
+          title: "TI 4 - Criar uma tabela",
+          description: "Dia 5, sessões 15-18. Criação de bases de dados, tabelas e integridade.",
+          html: `<div style="margin: 0 0 24px; padding: 28px 24px; border: 1px solid #D7E3F8; border-left: 6px solid #3B6FD8; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <p style="margin: 0 0 8px; color: #3B6FD8; font-size: 12px; font-weight: 900; text-transform: uppercase;">Dia 5 · Sessões 15-18</p>
+  <h3 style="margin: 0 0 10px; color: #0F3F5C; font-size: 24px; line-height: 1.2; font-weight: 900;">Criar uma tabela</h3>
+  <p style="margin: 0 0 12px; line-height: 1.6;"><strong>Tema:</strong> Criação de bases de dados + tabelas e integridade.</p>
+  <p style="margin: 0 0 14px; line-height: 1.6;">Cria uma tabela com campos, tipos de dados e chave primária.</p>
+  <ul style="margin: 0; padding-left: 22px; line-height: 1.7;">
+    <li>Escolhe o nome da tabela.</li>
+    <li>Define os campos necessários.</li>
+    <li>Indica o tipo de dados de cada campo.</li>
+    <li>Identifica a chave primária.</li>
+  </ul>
+</div>`
+        },
+        {
+          title: "TI 5 - Reflexão individual",
+          description: "Dia 6, sessões 19-22. Fundamentos de Transact-SQL, filtragem e ordenação.",
+          html: `<div style="margin: 0 0 24px; padding: 28px 24px; border: 1px solid #D7E3F8; border-left: 6px solid #0F3F5C; border-radius: 8px; background: #FFFFFF; font-family: Arial, Helvetica, sans-serif; color: #374151;">
+  <p style="margin: 0 0 8px; color: #0F3F5C; font-size: 12px; font-weight: 900; text-transform: uppercase;">Dia 6 · Sessões 19-22</p>
+  <h3 style="margin: 0 0 10px; color: #0F3F5C; font-size: 24px; line-height: 1.2; font-weight: 900;">Reflexão individual</h3>
+  <p style="margin: 0 0 12px; line-height: 1.6;"><strong>Tema:</strong> Fundamentos de Transact-SQL + filtragem e ordenação.</p>
+  <p style="margin: 0 0 14px; line-height: 1.6;">Reflete sobre contributos, aprendizagens e dificuldades sentidas ao longo das atividades.</p>
+  <ul style="margin: 0; padding-left: 22px; line-height: 1.7;">
+    <li>Identifica o teu principal contributo para as atividades.</li>
+    <li>Regista uma aprendizagem importante.</li>
+    <li>Indica uma dificuldade que ainda precisas de trabalhar.</li>
+    <li>Define uma estratégia para melhorar na utilização de SQL.</li>
+  </ul>
+</div>`
+        }
+      ];
+
+      function escapeHtml(value) {
+        return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      }
+
+      function renderTemplates() {
+        const root = document.getElementById("templates");
+        root.innerHTML = templates.map((template, index) => `
+          <article class="template-card">
+            <div class="template-head">
+              <div>
+                <h2>${index + 1}. ${template.title}</h2>
+                <p>${template.description}</p>
+              </div>
+              <button class="copy-button" type="button" data-copy="${index}">Copiar HTML</button>
+            </div>
+            <div class="template-body">
+              <div class="preview">${template.html}</div>
+              <div class="code-panel">
+                <textarea readonly>${escapeHtml(template.html)}</textarea>
+              </div>
+            </div>
+          </article>
+        `).join("");
+      }
+
+      document.addEventListener("click", async (event) => {
+        const button = event.target.closest("[data-copy]");
+        if (!button) return;
+
+        const template = templates[Number(button.dataset.copy)];
+        if (!template) return;
+
+        await navigator.clipboard.writeText(template.html);
+        button.textContent = "Copiado";
+        window.setTimeout(() => {
+          button.textContent = "Copiar HTML";
+        }, 1600);
+      });
+
+      renderTemplates();
+    </script>
+  </body>
+</html>
