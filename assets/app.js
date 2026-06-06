@@ -434,7 +434,7 @@ function obterConstituicaoVisibilidadeSite() {
     criarItemVisibilidade("recursos", "secao-recursos", "Recursos", "index.html#recursos", "secao", "secao", true, 400),
     ...resources.map((resource, index) => criarItemVisibilidade("recursos", `recurso-${resource.id}`, resource.title, resource.url, "recurso", "item", true, 410 + index)),
     criarItemVisibilidade("tarefas_grupo", "secao-tarefas-grupo", "Tarefas de Grupo", "atividades/tarefas-grupo.html", "secao", "secao", true, 500),
-    ...groupTasks.map((task, index) => criarItemVisibilidade("tarefas_grupo", `tarefa-grupo-${slugify(task.topic || `grupo-${index + 1}`)}`, task.topic || `Tarefa de Grupo ${index + 1}`, task.forumUrl || task.url || "", "tarefa_grupo", "item", true, 510 + index)),
+    ...groupTasks.map((task, index) => criarItemVisibilidade("tarefas_grupo", `tarefa-grupo-${slugify(task.topic || `grupo-${index + 1}`)}`, task.topic || `Tarefa de Grupo ${index + 1}`, task.forumUrl || task.url || GROUP_TASK_GLOSSARY_URL, "tarefa_grupo", "item", true, 510 + index)),
     criarItemVisibilidade("tarefas_individuais", "secao-tarefas-individuais", "Tarefas Individuais", "atividades/tarefas-individuais.html", "secao", "secao", true, 600),
     ...individualTasks.map((task, index) => criarItemVisibilidade("tarefas_individuais", `tarefa-individual-${slugify(task.title || `individual-${index + 1}`)}`, task.title || `Tarefa Individual ${index + 1}`, task.forumUrl || task.url || "", "tarefa_individual", "item", true, 610 + index)),
     criarItemVisibilidade("laboratorio_codigo", "secao-laboratorio-codigo", "Laboratório SQL", "atividades/laboratorio-sql.html", "secao", "secao", true, 700),
@@ -705,15 +705,22 @@ const activities = [
   }
 ];
 
+const GROUP_TASK_GLOSSARY_URL = "https://fad.iefp.pt/mod/glossary/edit.php";
+
 const groupTasks = [
   {
     day: "Dia 2",
     sessions: "Sessões 3-6",
     theory: "Introdução a bases de dados + ambientes de bases de dados",
     topic: "Palavra do glossário: Base de dados",
-    intro: "Construir uma definição clara para o conceito de base de dados, usando linguagem acessível e um exemplo próximo da realidade.",
+    intro: "Construir definições claras para vocabulário inicial de bases de dados, usando linguagem acessível e exemplos próximos da realidade.",
     words: [
-      ["Base de dados", "Organização de informação"]
+      ["Base de dados", "Grupo Sala 1"],
+      ["Tabela", "Grupo Sala 2"],
+      ["Campo", "Grupo Sala 3"],
+      ["Registo", "Grupo Sala 4"],
+      ["Dados", "Grupo Sala 5"],
+      ["SGBD", "Grupo Sala 6"]
     ]
   },
   {
@@ -4659,7 +4666,7 @@ function renderActivityPage() {
           <div class="task-module-list">
             ${visibleTasks.length ? visibleTasks.map(({ task, originalIndex, key }, visibleIndex) => {
               const visItem = siteVisibilityItems.find((item) => item.chave === key);
-              const currentForumUrl = visItem?.url || task.forumUrl || task.url || "";
+              const currentForumUrl = visItem?.url || task.forumUrl || task.url || (isIndividual ? "" : GROUP_TASK_GLOSSARY_URL);
               const taskActionLabel = isIndividual ? "Fazer tarefa no Moodle" : "Abrir glossário";
 
               return `
@@ -7934,20 +7941,36 @@ function renderizarSite() {
   renderManualPage();
 }
 
-setupFloatingActions();
-setupModal();
-renderizarSite();
-setupMenu();
-
-if (APPS_SCRIPT_WEB_APP_URL && document.body.dataset.page !== "teams-control" && document.body.dataset.activity !== "controlo-teams") {
-  carregarVisibilidadeRemotaDoSite().then((ok) => {
-    if (ok) {
-      renderizarSite();
-      setupMenu();
-    }
-  });
+function paginaDeveAguardarVisibilidadeRemota() {
+  return ["tarefas-individuais", "tarefas-grupo"].includes(document.body.dataset.activity || "");
 }
 
+async function iniciarSite() {
+  setupFloatingActions();
+  setupModal();
+
+  const podeCarregarRemoto = APPS_SCRIPT_WEB_APP_URL
+    && document.body.dataset.page !== "teams-control"
+    && document.body.dataset.activity !== "controlo-teams";
+
+  if (podeCarregarRemoto && paginaDeveAguardarVisibilidadeRemota()) {
+    await carregarVisibilidadeRemotaDoSite();
+  }
+
+  renderizarSite();
+  setupMenu();
+
+  if (podeCarregarRemoto && !siteVisibilityRemoteLoaded) {
+    carregarVisibilidadeRemotaDoSite().then((ok) => {
+      if (ok) {
+        renderizarSite();
+        setupMenu();
+      }
+    });
+  }
+}
+
+iniciarSite();
 
 
 
