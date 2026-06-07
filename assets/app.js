@@ -2486,8 +2486,64 @@ function abrirMenuPeloHashDoIndex() {
   }
 }
 
+function garantirBotoesFlutuantes() {
+  let actions = document.querySelector(".floating-actions");
+
+  if (!actions) {
+    actions = document.createElement("div");
+    actions.className = "floating-actions";
+    actions.setAttribute("aria-label", "Ações rápidas");
+    actions.innerHTML = `
+      <a href="${getBasePath()}index.html#inicio" aria-label="Página inicial" title="Página inicial"><span class="float-icon icon-home" aria-hidden="true"></span></a>
+      <button type="button" data-action="top" aria-label="Voltar ao topo" title="Voltar ao topo"><span class="float-icon icon-top" aria-hidden="true"></span></button>
+      <button type="button" data-action="print" aria-label="Imprimir" title="Imprimir"><span class="float-icon icon-print" aria-hidden="true"></span></button>
+    `;
+    document.body.appendChild(actions);
+  }
+
+  if (!actions.querySelector('[data-action="menu"]')) {
+    const menuButton = document.createElement("button");
+    menuButton.type = "button";
+    menuButton.dataset.action = "menu";
+    menuButton.setAttribute("aria-label", "Mostrar menu");
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.title = "Mostrar menu";
+    menuButton.innerHTML = '<span class="float-icon icon-menu" aria-hidden="true"></span>';
+    actions.insertBefore(menuButton, actions.firstElementChild);
+  }
+}
+
 function setupMenu() {
   const homeSectionBySubmenu = obterSecaoIndexPorSubmenu();
+  const toggle = document.querySelector(".menu-toggle");
+  const floatingMenuButtons = document.querySelectorAll('[data-action="menu"]');
+  const desktopMenuQuery = window.matchMedia("(min-width: 981px)");
+
+  const isMenuOpen = () => desktopMenuQuery.matches
+    ? !document.body.classList.contains("menu-collapsed")
+    : document.body.classList.contains("menu-open");
+
+  const syncMenuButtons = () => {
+    const open = isMenuOpen();
+    toggle?.setAttribute("aria-expanded", String(open));
+    floatingMenuButtons.forEach((button) => {
+      button.setAttribute("aria-expanded", String(open));
+      button.classList.toggle("is-active", open);
+      button.setAttribute("title", open ? "Ocultar menu" : "Mostrar menu");
+      button.setAttribute("aria-label", open ? "Ocultar menu" : "Mostrar menu");
+    });
+  };
+
+  const toggleSiteMenu = () => {
+    if (desktopMenuQuery.matches) {
+      document.body.classList.toggle("menu-collapsed");
+      document.body.classList.remove("menu-open");
+    } else {
+      document.body.classList.toggle("menu-open");
+    }
+
+    syncMenuButtons();
+  };
 
   document.querySelectorAll(".nav-parent").forEach((button) => {
     if (button.dataset.navParentReady) return;
@@ -2513,14 +2569,19 @@ function setupMenu() {
     });
   });
 
-  const toggle = document.querySelector(".menu-toggle");
   if (toggle && !toggle.dataset.menuToggleReady) {
     toggle.dataset.menuToggleReady = "true";
-    toggle.addEventListener("click", () => {
-      const open = document.body.classList.toggle("menu-open");
-      toggle.setAttribute("aria-expanded", String(open));
-    });
+    toggle.addEventListener("click", toggleSiteMenu);
   }
+
+  floatingMenuButtons.forEach((button) => {
+    if (button.dataset.menuToggleReady) return;
+    button.dataset.menuToggleReady = "true";
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      toggleSiteMenu();
+    });
+  });
 
   document.querySelectorAll(".side-nav a:not(.nav-parent)").forEach((link) => {
     if (link.dataset.menuLinkReady) return;
@@ -2545,14 +2606,21 @@ function setupMenu() {
       }
 
       document.body.classList.remove("menu-open");
-      toggle?.setAttribute("aria-expanded", "false");
+      syncMenuButtons();
     });
   });
 
   abrirMenuPeloHashDoIndex();
+  desktopMenuQuery.addEventListener?.("change", () => {
+    document.body.classList.remove("menu-open");
+    syncMenuButtons();
+  });
+  syncMenuButtons();
 }
 
 function setupFloatingActions() {
+  garantirBotoesFlutuantes();
+
   document.addEventListener("click", (event) => {
     const actionButton = event.target.closest("[data-action]");
     if (!actionButton) return;
