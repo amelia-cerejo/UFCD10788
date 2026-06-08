@@ -728,9 +728,14 @@ const groupTasks = [
     sessions: "Sessões 7-10",
     theory: "Terminologia + planeamento/desenho",
     topic: "Palavra do glossário: Chave primária",
-    intro: "Explicar a função da chave primária numa tabela e porque é importante para identificar registos.",
+    intro: "Construir definições para conceitos de identificação, relação e desenho de bases de dados.",
     words: [
-      ["Chave primária", "Identificação única"]
+      ["Chave primária", "Grupo Sala 1"],
+      ["Chave estrangeira", "Grupo Sala 2"],
+      ["Relação", "Grupo Sala 3"],
+      ["Entidade", "Grupo Sala 4"],
+      ["Atributo", "Grupo Sala 5"],
+      ["Modelo relacional", "Grupo Sala 6"]
     ]
   },
   {
@@ -738,9 +743,14 @@ const groupTasks = [
     sessions: "Sessões 11-14",
     theory: "Introdução ao SQL + primeiras consultas",
     topic: "Palavra do glossário: SELECT",
-    intro: "Definir o comando SELECT e indicar para que serve numa consulta SQL.",
+    intro: "Definir comandos e elementos usados nas primeiras consultas SQL.",
     words: [
-      ["SELECT", "Consultar dados"]
+      ["SELECT", "Grupo Sala 1"],
+      ["FROM", "Grupo Sala 2"],
+      ["Consulta", "Grupo Sala 3"],
+      ["Coluna", "Grupo Sala 4"],
+      ["Linha", "Grupo Sala 5"],
+      ["Resultado", "Grupo Sala 6"]
     ]
   },
   {
@@ -748,9 +758,14 @@ const groupTasks = [
     sessions: "Sessões 15-18",
     theory: "Criação de bases de dados + tabelas e integridade",
     topic: "Palavra do glossário: Integridade dos dados",
-    intro: "Clarificar o significado de integridade dos dados e dar um exemplo de regra que ajuda a manter dados corretos.",
+    intro: "Clarificar conceitos ligados à criação de tabelas e à qualidade dos dados guardados.",
     words: [
-      ["Integridade dos dados", "Dados corretos e coerentes"]
+      ["Integridade dos dados", "Grupo Sala 1"],
+      ["Tipo de dados", "Grupo Sala 2"],
+      ["Restrição", "Grupo Sala 3"],
+      ["NOT NULL", "Grupo Sala 4"],
+      ["Valor único", "Grupo Sala 5"],
+      ["CREATE TABLE", "Grupo Sala 6"]
     ]
   },
   {
@@ -758,9 +773,14 @@ const groupTasks = [
     sessions: "Sessões 19-22",
     theory: "Fundamentos de Transact-SQL + filtragem e ordenação",
     topic: "Palavra do glossário: WHERE",
-    intro: "Explicar como a cláusula WHERE permite filtrar resultados numa consulta.",
+    intro: "Explicar conceitos usados para filtrar, ordenar e refinar resultados em SQL.",
     words: [
-      ["WHERE", "Filtrar resultados"]
+      ["WHERE", "Grupo Sala 1"],
+      ["ORDER BY", "Grupo Sala 2"],
+      ["Operador lógico", "Grupo Sala 3"],
+      ["AND", "Grupo Sala 4"],
+      ["OR", "Grupo Sala 5"],
+      ["Critério", "Grupo Sala 6"]
     ]
   }
 ];
@@ -2251,20 +2271,20 @@ const resources = [
   {
     id: "manual",
     title: "Manual para download",
-    intro: "Página preparada para consultar e descarregar o manual da UFCD.",
+    intro: "Consultar e descarregar o manual da UFCD 10788.",
     url: "recursos/manual.html",
     anchor: "index.html#recursos-manual",
-    pdfUrl: ""
+    pdfUrl: "assets/pdfs/Manual_UFCD10788.pdf"
   },
   {
     id: "assistente-gpt",
-    title: "Assistente UFCD 10788",
-    menuTitle: "Assistente GPT",
-    intro: "Apoio orientado para colocar dúvidas, rever conceitos e pedir ajuda durante o estudo da UFCD.",
+    title: "Assistente SQL",
+    menuTitle: "Assistente SQL",
+    intro: "Apoio orientado para colocar dúvidas, rever conceitos de SQL e pedir ajuda durante o estudo da UFCD.",
     url: "recursos/assistente-gpt.html",
     anchor: "index.html#recursos-assistente-gpt",
     menuIcon: "assets/img/assistente-gpt.png",
-    gptUrl: ""
+    gptUrl: "https://chatgpt.com/g/g-6a26ca8b18208191bfbb63eaa11fcfea-assistente-sql"
   }
 ];
 const modalContent = {
